@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {
@@ -12,7 +13,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::all();
+        return response()->json([
+            "statut" => "OK",
+            "message" => "Liste des rôles",
+            'datas' => $roles
+        ]);
     }
 
     /**
@@ -28,7 +34,18 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'libelle' => 'required|string'
+        ]);
+
+        $role = new Role();
+        $role->libelle = $request->libelle;
+        $role->save();
+        return response()->json([
+            'statut' => 'OK',
+            'Message' => 'Rôle ajouter avec succès',
+            'Role' => $role
+        ]);
     }
 
     /**
@@ -52,7 +69,17 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        $request->validate([
+            'libelle' => 'required|string'
+        ]);
+
+        $role->libelle = $request->libelle;
+        $role->save();
+        return response()->json([
+            'statut' => 'OK',
+            'Message' => 'Rôle ajouter avec succès',
+            'Role' => $role
+        ]);
     }
 
     /**
@@ -60,6 +87,16 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        if ($role->exists()) {
+            $role->delete();
+            return response()->json([
+                "statut" => "OK",
+                "message" => "Rôle supprimer avec succès"
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Rôle introuvable'
+            ]);
+        }
     }
 }

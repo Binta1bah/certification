@@ -11,14 +11,23 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
+
+    public function index()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $users = User::where('role_id', 1)->get();
+        return response()->json([
+            'message' => 'La liste des utilisateurs',
+            'Utilisateurs' => $users
+        ]);
+    }
+
+    public function usersBloques()
+    {
+        $users = User::where('role_id', 1)->where('is_bloqued', 1)->get();
+        return response()->json([
+            'message' => 'La liste des utilisateurs bloqués',
+            'Utilisateurs' => $users
+        ]);
     }
 
 
@@ -77,7 +86,82 @@ class UserController extends Controller
     }
 
 
-    
+    public function refresh()
+    {
+        return $this->respondWithToken(auth()->refresh());
+    }
+
+    public function profil()
+    {
+        $user = auth()->user();
+        return response()->json([
+            'message' => 'Vos information',
+            'infos' => [
+                'Nom' => $user->name,
+                'Telephone' => $user->telephone,
+                'email' => $user->email,
+                'Photo' => $user->photo,
+                'Mot de passe' => $user->password
+            ]
+        ]);
+    }
+
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
+            'password' => 'required|string|min:8',
+            'photo' => 'required',
+            'telephone' => 'required|string|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone',
+        ]);
+
+        $user = auth()->user();
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->telephone = $request->telephone;
+
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $photoName = time() . '.' . $photo->getClientOriginalExtension();
+            $photoPath = public_path('images');
+            $photo->move($photoPath, $photoName);
+            $user->photo = 'images/' . $photoName;
+        }
+
+        if ($user->save()) {
+            return response()->json([
+                "statut" => "ok",
+                "message" => "Modification effectuée",
+                "data" => $user
+            ]);
+        }
+    }
+
+
+    public function bloquerUser(User $user)
+    {
+
+        $user->is_bloqued = 1;
+        $user->save();
+        return response()->json([
+            'message' => 'Utilisateur bloqué avec succes'
+        ]);
+    }
+
+    public function debloquerUser(User $user)
+    {
+
+        $user->is_bloqued = 0;
+        $user->save();
+        return response()->json([
+            'message' => 'Utilisateur debloqué avec succes'
+        ]);
+    }
+
     public function logout()
     {
         auth()->logout();
@@ -85,6 +169,7 @@ class UserController extends Controller
             'message' => 'Déconnexion effectuée',
         ]);
     }
+
 
 
 
