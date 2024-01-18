@@ -9,10 +9,38 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Info(
+ *     title="EcoLoop",
+ *     version="1.0.0",
+ *     description="Application de dons et d'échanges d'objets durables"
+ * )
+ */
+
+/**
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
 class UserController extends Controller
 {
 
+    /**
+     * @OA\Get(
+     *     path="/api/users",
+     * tags={"User"},
+     *     summary="liste de tous les utilisateurs",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
 
     public function index()
     {
@@ -23,6 +51,17 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/usersBloques",
+     * tags={"User"},
+     *     summary="liste de tous les utilisateurs bloqués",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
     public function usersBloques()
     {
         $users = User::where('role_id', 1)->where('is_bloqued', 1)->get();
@@ -32,6 +71,32 @@ class UserController extends Controller
         ]);
     }
 
+
+    /**
+     * @OA\Post(
+     *     path="/api/inscription",
+     *     summary="Inscription d'un utilisateurs",
+     *     tags={"User"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="name", type="string", example="John"),
+     *             @OA\Property(property="telephone", type="string", example="784741478"),
+     *             @OA\Property(property="photo", type="string", format="binary", description="Fichier de photo"),
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password")
+     *         )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Utilisateur créer avec succées",
+     *     ),
+     *     @OA\Response(response=401, description="Validation Error")
+     * )
+     */
 
     public function register(Request $request)
     {
@@ -63,12 +128,35 @@ class UserController extends Controller
         if ($user->save()) {
             return response()->json([
                 "status" => "ok",
-                "message" => "c'est bon",
+                "message" => "Inscription effectuée avec succes",
                 "data" => $user
             ]);
         }
     }
 
+
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     tags={"User"},
+     *     summary="Connexion d'un utilisateur",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *                 @OA\Property(property="password", type="string", format="password", example="password")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Connexion réussie",
+     *     ),
+     *     @OA\Response(response=401, description="Échec de l'authentification")
+     * )
+     */
 
     public function login(Request $request)
     {
@@ -90,6 +178,17 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\get(
+     *     path="/api/refresh",
+     * tags={"User"},
+     *     summary="raffraichir le token d'un utilisateur",
+     *  security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
     public function refresh()
     {
         try {
@@ -101,6 +200,30 @@ class UserController extends Controller
             ], 403);
         }
     }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/profil",
+     *     tags={"User"},
+     *     summary="Informations de profil d'un utilisateur",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response=200,
+     *         description="Succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="telephone", type="string", example="784741478"),
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="photo", type="string", example="path/to/photo.jpg"),
+     *             @OA\Property(property="role", type="string", example="user")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Non autorisé"),
+     * )
+     */
 
     public function profil()
     {
@@ -125,6 +248,35 @@ class UserController extends Controller
     }
 
 
+
+    /**
+     * @OA\Post(
+     *     path="/api/update",
+     *     summary="Modification des informations d'un utilisateur",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     tags={"User"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="name", type="string", example="John"),
+     *             @OA\Property(property="telephone", type="string", example="784741478"),
+     *             @OA\Property(property="photo", type="string", format="binary", description="Fichier de photo"),
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password")
+     *         )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Utilisateur créer avec succées",
+     *     ),
+     *     @OA\Response(response=401, description="Validation Error")
+     * )
+     */
     public function update(Request $request)
     {
         try {
@@ -134,7 +286,6 @@ class UserController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email|max:255',
                 'password' => 'required|string|min:8',
-                'photo' => 'required',
                 'telephone' => 'required|string|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone',
             ]);
 
@@ -168,6 +319,24 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\put(
+     *     path="/api/bloquer/{user}",
+     * tags={"User"}, 
+     *     summary="Bloquer un utilisateur par l'admin",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'utilisateur",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
     public function bloquerUser(User $user)
     {
         $user->is_bloqued = 1;
@@ -178,6 +347,25 @@ class UserController extends Controller
         }
     }
 
+
+    /**
+     * @OA\put(
+     *     path="/api/debloquer/{user}",
+     * tags={"User"}, 
+     *     summary="Debloquer un utilisateur par l'admin",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'utilisateur",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
     public function debloquerUser(User $user)
     {
         $user->is_bloqued = 0;
@@ -187,6 +375,18 @@ class UserController extends Controller
         ]);
     }
 
+
+    /**
+     * @OA\get(
+     *     path="/api/logout",
+     * tags={"User"},
+     *     summary="Deconnexion d'un utilisateur",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
     public function logout()
     {
         auth()->logout();
