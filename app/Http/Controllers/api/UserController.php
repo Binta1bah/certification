@@ -6,7 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class UserController extends Controller
 {
@@ -70,12 +72,14 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+
         $request->validate([
             'email' => 'required',
             'password' => 'required'
         ]);
 
         $credentials = request(['email', 'password']);
+
 
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
@@ -88,73 +92,94 @@ class UserController extends Controller
 
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        try {
+            $this->authorize('refresh', User::class);
+            return $this->respondWithToken(auth()->refresh());
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'message' => 'Desolé, Vous ne pouvez pas effectuer cette tâche pour le moment.'
+            ], 403);
+        }
     }
 
     public function profil()
     {
-        $user = auth()->user();
-        return response()->json([
-            'message' => 'Vos information',
-            'infos' => [
-                'Nom' => $user->name,
-                'Telephone' => $user->telephone,
-                'email' => $user->email,
-                'Photo' => $user->photo,
-                'Mot de passe' => $user->password
-            ]
-        ]);
+        try {
+            $this->authorize('profil', User::class);
+            $user = auth()->user();
+            return response()->json([
+                'message' => 'Vos information',
+                'infos' => [
+                    'Nom' => $user->name,
+                    'Telephone' => $user->telephone,
+                    'email' => $user->email,
+                    'Photo' => $user->photo,
+                    'Mot de passe' => $user->password
+                ]
+            ]);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'message' => 'Desolé, Vous ne pouvez pas effectuer cette tâche pour le moment.'
+            ], 403);
+        }
     }
 
 
     public function update(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|string|min:8',
-            'photo' => 'required',
-            'telephone' => 'required|string|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone',
-        ]);
-
-        $user = auth()->user();
-
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->telephone = $request->telephone;
-
-        if ($request->hasFile('photo')) {
-            $photo = $request->file('photo');
-            $photoName = time() . '.' . $photo->getClientOriginalExtension();
-            $photoPath = public_path('images');
-            $photo->move($photoPath, $photoName);
-            $user->photo = 'images/' . $photoName;
-        }
-
-        if ($user->save()) {
-            return response()->json([
-                "statut" => "ok",
-                "message" => "Modification effectuée",
-                "data" => $user
+        try {
+            $this->authorize('update', User::class);
+            $user = auth()->user();
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email|max:255',
+                'password' => 'required|string|min:8',
+                'photo' => 'required',
+                'telephone' => 'required|string|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone',
             ]);
+
+
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->telephone = $request->telephone;
+
+            if ($request->hasFile('photo')) {
+                $photo = $request->file('photo');
+                $photoName = time() . '.' . $photo->getClientOriginalExtension();
+                $photoPath = public_path('images');
+                $photo->move($photoPath, $photoName);
+                $user->photo = 'images/' . $photoName;
+            }
+
+            if ($user->save()) {
+                return response()->json([
+                    "statut" => "ok",
+                    "message" => "Modification effectuée",
+                    "data" => $user
+                ]);
+            }
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'message' => 'Desolé, Vous ne pouvez pas effectuer cette tâche pour le moment.'
+            ], 403);
         }
     }
 
 
     public function bloquerUser(User $user)
     {
-
         $user->is_bloqued = 1;
-        $user->save();
-        return response()->json([
-            'message' => 'Utilisateur bloqué avec succes'
-        ]);
+        if ($user->save()) {
+            return response()->json([
+                'message' => 'Utilisateur bloqué avec succes'
+            ]);
+        }
     }
 
     public function debloquerUser(User $user)
     {
-
         $user->is_bloqued = 0;
         $user->save();
         return response()->json([
@@ -171,16 +196,23 @@ class UserController extends Controller
     }
 
 
-
-
     protected function respondWithToken($token)
     {
-        $user = auth()->user();
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            // 'expires_in' => auth()->factory()->getTTL() * 60
-            'user' => $user
-        ]);
+        try {
+            $this->authorize('login', User::class);
+
+            $user = auth()->user();
+
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60,
+                'user' => $user
+            ]);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'message' => 'Desolé, Vous ne pouvez pas vous connecter pour le moment.'
+            ], 403);
+        }
     }
 }

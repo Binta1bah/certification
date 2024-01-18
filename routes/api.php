@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\api\ArticleController;
+use App\Http\Controllers\api\CategorieController;
+use App\Http\Controllers\api\LocaliteController;
 use App\Http\Controllers\api\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +37,23 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::put('/bloquer/{user}', [UserController::class, 'bloquerUser']);
     Route::put('/debloquer/{user}', [UserController::class, 'debloquerUser']);
     Route::apiResource('roles', RoleController::class);
+    Route::get('/users', [UserController::class, 'index']);
+    // Route::apiResource('categories', CategorieController::class);
+    // Route pour les categories
+    Route::post('categories', [CategorieController::class, 'store']);
+    Route::get('categories', [CategorieController::class, 'index']);
+    Route::delete('categories/{categorie}', [CategorieController::class, 'destroy']);
+    Route::put('categories/{categorie}', [CategorieController::class, 'update']);
+    // Route pour les localités
+    Route::post('localites', [LocaliteController::class, 'store']);
+    Route::get('localites', [LocaliteController::class, 'index']);
+    Route::delete('localites/{localite}', [LocaliteController::class, 'destroy']);
+    Route::put('localites/{localite}', [LocaliteController::class, 'update']);
+    // Route pour les articles
+    Route::post('articles', [ArticleController::class, 'store']);
+
+    Route::delete('articles/{article}', [ArticleController::class, 'destroy']);
+    Route::put('articles/{article}', [ArticleController::class, 'update']);
 });
 
 Route::group(['middleware' => ['auth:api', 'user']], function () {
@@ -42,4 +62,6 @@ Route::group(['middleware' => ['auth:api', 'user']], function () {
 
 Route::post('/inscription', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
-Route::get('/users', [UserController::class, 'index']);
+
+Route::get('articles', [ArticleController::class, 'index']);
+Route::get('articles/{article}', [ArticleController::class, 'show']);
