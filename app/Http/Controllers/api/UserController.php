@@ -250,7 +250,7 @@ class UserController extends Controller
 
 
     /**
-     * @OA\Post(
+     * @OA\Put(
      *     path="/api/update",
      *     summary="Modification des informations d'un utilisateur",
      *     security={

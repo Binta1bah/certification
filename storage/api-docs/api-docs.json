@@ -1,6 +1,411 @@
 {
     "openapi": "3.0.0",
     "paths": {
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Categorie"
+                ],
+                "summary": "liste de toutes les categories",
+                "operationId": "49c0c4231d78a88f15f6c79647f3b578",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Categorie"
+                ],
+                "summary": "Ajout d'une categorie",
+                "operationId": "af9c0d174b0b4abc44d74d3815c2f2af",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "libelle": {
+                                        "type": "string",
+                                        "example": "libelle"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categorie créée avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/categories/{categorie}": {
+            "put": {
+                "tags": [
+                    "Categorie"
+                ],
+                "summary": "Modifier la categorie",
+                "operationId": "47563c52ddabd478aa02b2073a6601cc",
+                "parameters": [
+                    {
+                        "name": "Categorie",
+                        "in": "path",
+                        "description": "ID de la categorie à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    " libelle": {
+                                        "type": "string",
+                                        "example": "Nouveau libelle"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Categorie"
+                ],
+                "summary": "Supprimer une categorie",
+                "operationId": "5ec2cdce22ea1866e6fc07793ef7553b",
+                "parameters": [
+                    {
+                        "name": "Categorie",
+                        "in": "path",
+                        "description": "ID de la categorie à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/localites": {
+            "get": {
+                "tags": [
+                    "Localite"
+                ],
+                "summary": "liste de toutes les localités",
+                "operationId": "d37e24bcb9ce1135d4f9c3a76a0dbdc7",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Localite"
+                ],
+                "summary": "Ajout d'une localité",
+                "operationId": "9970da7addbaa7dc53e9911297d7ec41",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "nom"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Localité créé avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/localites/{localite}": {
+            "put": {
+                "tags": [
+                    "Localite"
+                ],
+                "summary": "Modifier le nom d'une localité",
+                "operationId": "eb76eda7fa9c591a297390fad38ee0f2",
+                "parameters": [
+                    {
+                        "name": "localite",
+                        "in": "path",
+                        "description": "ID de le localite à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    " nom": {
+                                        "type": "string",
+                                        "example": "Nouveau nom"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    },
+                    "404": {
+                        "description": "Rôle non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Localite"
+                ],
+                "summary": "Supprimer une localité",
+                "operationId": "35788788bc29fd9cdfaf851f643190ef",
+                "parameters": [
+                    {
+                        "name": "localite",
+                        "in": "path",
+                        "description": "ID de le localité",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/roles": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "liste de tous les rôles",
+                "operationId": "2e5dea2e4a1ff0f176e7f3162e83ceb3",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Ajout d'un rôle",
+                "operationId": "a8348d8603d4300c2b19659c0bfe77fd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "libelle": {
+                                        "type": "string",
+                                        "example": "Objet"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rôle créé avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/roles/{role}": {
+            "put": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Modifier le libelle d'un rôle",
+                "operationId": "a9ef8002c005098aebe79e351d233f68",
+                "parameters": [
+                    {
+                        "name": "role",
+                        "in": "path",
+                        "description": "ID du rôle à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "libelle": {
+                                        "type": "string",
+                                        "example": "Nouveau Libelle"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    },
+                    "404": {
+                        "description": "Rôle non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Supprimer un rôle",
+                "operationId": "9a3859662f92ace99430f395628b7869",
+                "parameters": [
+                    {
+                        "name": "role",
+                        "in": "path",
+                        "description": "ID du rôle",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/users": {
             "get": {
                 "tags": [
@@ -202,12 +607,12 @@
             }
         },
         "/api/update": {
-            "post": {
+            "put": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Modification des informations d'un utilisateur",
-                "operationId": "baa09cea328f04eb113ca0328c49b61b",
+                "operationId": "4381aeb1e92d871733036d78b84770fd",
                 "requestBody": {
                     "required": true,
                     "content": {

@@ -6,10 +6,34 @@ use App\Models\Localite;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Info(
+ *     title="EcoLoop",
+ *     version="1.0.0",
+ *     description="Application de dons et d'échanges d'objets durables"
+ * )
+ */
+
+/**
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
 class LocaliteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/localites",
+     * tags={"Localite"},
+     *     summary="liste de toutes les localités",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function index()
     {
@@ -30,7 +54,28 @@ class LocaliteController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/localites",
+     *     summary="Ajout d'une localité",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     tags={"Localite"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="nom", type="string", example="nom"),
+     *         )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Localité créé avec succées",
+     *     ),
+     *     @OA\Response(response=401, description="Validation Error")
+     * )
      */
     public function store(Request $request)
     {
@@ -65,7 +110,34 @@ class LocaliteController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/localites/{localite}",
+     *     tags={"Localite"}, 
+     *     summary="Modifier le nom d'une localité",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *         name="localite",
+     *         in="path",
+     *         required=true,
+     *         description="ID de le localite à modifier",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property=" nom", type="string", example="Nouveau nom"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Succès"),
+     *     @OA\Response(response="401", description="Non autorisé"),
+     *     @OA\Response(response="404", description="Rôle non trouvé"),
+     *     @OA\Response(response="422", description="Erreur de validation")
+     * )
      */
     public function update(Request $request, Localite $localite)
     {
@@ -84,7 +156,22 @@ class LocaliteController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/localites/{localite}",
+     * tags={"Localite"}, 
+     *     summary="Supprimer une localité",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="localite",
+     *         in="path",
+     *         required=true,
+     *         description="ID de le localité",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function destroy(Localite $localite)
     {

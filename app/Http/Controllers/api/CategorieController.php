@@ -6,10 +6,35 @@ use App\Models\Categorie;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Info(
+ *     title="EcoLoop",
+ *     version="1.0.0",
+ *     description="Application de dons et d'échanges d'objets durables"
+ * )
+ */
+
+/**
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
 class CategorieController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/categories",
+     * tags={"Categorie"},
+     *     summary="liste de toutes les categories",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function index()
     {
@@ -30,7 +55,28 @@ class CategorieController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/categories",
+     *     summary="Ajout d'une categorie",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     tags={"Categorie"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="libelle", type="string", example="libelle"),
+     *         )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Categorie créée avec succées",
+     *     ),
+     *     @OA\Response(response=401, description="Validation Error")
+     * )
      */
     public function store(Request $request)
     {
@@ -65,7 +111,31 @@ class CategorieController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\put(
+     *     path="/api/categories/{categorie}",
+     *     tags={"Categorie"}, 
+     *     summary="Modifier la categorie",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *         name="Categorie",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la categorie à modifier",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property=" libelle", type="string", example="Nouveau libelle"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Succès"),
+     * )
      */
     public function update(Request $request, Categorie $categorie)
     {
@@ -83,8 +153,24 @@ class CategorieController extends Controller
         ]);
     }
 
+
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/categories/{categorie}",
+     * tags={"Categorie"}, 
+     *     summary="Supprimer une categorie",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="Categorie",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la categorie à supprimer",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function destroy(Categorie $categorie)
     {

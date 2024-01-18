@@ -6,10 +6,36 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Info(
+ *     title="EcoLoop",
+ *     version="1.0.0",
+ *     description="Application de dons et d'échanges d'objets durables"
+ * )
+ */
+
+/**
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
 class RoleController extends Controller
 {
+
+
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/roles",
+     * tags={"Role"},
+     *     summary="liste de tous les rôles",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function index()
     {
@@ -29,8 +55,30 @@ class RoleController extends Controller
         //
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/roles",
+     *     summary="Ajout d'un rôle",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     tags={"Role"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="libelle", type="string", example="Objet"),
+     *         )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Rôle créé avec succées",
+     *     ),
+     *     @OA\Response(response=401, description="Validation Error")
+     * )
      */
     public function store(Request $request)
     {
@@ -64,8 +112,39 @@ class RoleController extends Controller
         //
     }
 
+
+
+
+
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/roles/{role}",
+     *     tags={"Role"}, 
+     *     summary="Modifier le libelle d'un rôle",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *         name="role",
+     *         in="path",
+     *         required=true,
+     *         description="ID du rôle à modifier",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="libelle", type="string", example="Nouveau Libelle"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Succès"),
+     *     @OA\Response(response="401", description="Non autorisé"),
+     *     @OA\Response(response="404", description="Rôle non trouvé"),
+     *     @OA\Response(response="422", description="Erreur de validation")
+     * )
      */
     public function update(Request $request, Role $role)
     {
@@ -82,8 +161,25 @@ class RoleController extends Controller
         ]);
     }
 
+
+
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/roles/{role}",
+     * tags={"Role"}, 
+     *     summary="Supprimer un rôle",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="role",
+     *         in="path",
+     *         required=true,
+     *         description="ID du rôle",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function destroy(Role $role)
     {
