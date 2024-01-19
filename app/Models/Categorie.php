@@ -12,4 +12,9 @@ class Categorie extends Model
     protected $fillable = [
         'libelle'
     ];
+
+    public function annonces()
+    {
+        return $this->hasMany(Annonce::class);
+    }
 }

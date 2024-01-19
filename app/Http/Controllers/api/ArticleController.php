@@ -5,11 +5,33 @@ namespace App\Http\Controllers\api;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Info(
+ *     title="EcoLoop",
+ *     version="1.0.0",
+ *     description="Application de dons et d'échanges d'objets durables"
+ * )
+ */
+
+/**
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
 class ArticleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/articles",
+     * tags={"Article"},
+     *     summary="liste de tous les categories",
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function index()
     {
@@ -29,8 +51,32 @@ class ArticleController extends Controller
         //
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/articles",
+     *     summary="Ajout d'un article",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     tags={"Article"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="libelle", type="string"),
+     *             @OA\Property(property="image", type="string", format="binary", description="Fichier de photo"),
+     *             @OA\Property(property="contenu", type="string"),
+     *         )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Article ajouté avec succées",
+     *     ),
+     *     @OA\Response(response=401, description="Validation Error")
+     * )
      */
     public function store(Request $request)
     {
@@ -59,8 +105,30 @@ class ArticleController extends Controller
         ]);
     }
 
+
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/articles/{article}",
+     *     tags={"Article"},
+     *     summary="Details d'un article",
+     *     @OA\Parameter(
+     *         name="article",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'article à afficher",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="libelle", type="string"),
+     *             @OA\Property(property="image", type="string", example="path/to/photo.jpg"),
+     *             @OA\Property(property="contenu", type="string"),
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Non autorisé"),
+     * )
      */
     public function show(Article $article)
     {
@@ -78,8 +146,40 @@ class ArticleController extends Controller
         //
     }
 
+
+
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/articles/{article}",
+     *     tags={"Article"},
+     *     summary="Modification d'un article",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *      @OA\Parameter(
+     *         name="article",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'article à modifier",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="libelle", type="string"),
+     *             @OA\Property(property="image", type="string", format="binary", description="Fichier de photo"),
+     *             @OA\Property(property="contenu", type="string"),
+     *         )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Article modifié avec succées",
+     *     ),
+     *     @OA\Response(response=401, description="Validation Error")
+     * )
      */
     public function update(Request $request, Article $article)
     {
@@ -108,7 +208,22 @@ class ArticleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/articles/{article}",
+     *     tags={"Article"}, 
+     *     summary="Supprimer un article",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="article",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'article à supprimer",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function destroy(Article $article)
     {

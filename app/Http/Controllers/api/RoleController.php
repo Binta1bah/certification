@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(

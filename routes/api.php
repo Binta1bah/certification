@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\AnnonceController;
 use App\Http\Controllers\api\ArticleController;
 use App\Http\Controllers\api\CategorieController;
 use App\Http\Controllers\api\LocaliteController;
@@ -51,13 +52,19 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::put('localites/{localite}', [LocaliteController::class, 'update']);
     // Route pour les articles
     Route::post('articles', [ArticleController::class, 'store']);
-
     Route::delete('articles/{article}', [ArticleController::class, 'destroy']);
     Route::put('articles/{article}', [ArticleController::class, 'update']);
 });
 
 Route::group(['middleware' => ['auth:api', 'user']], function () {
+    Route::post('/annonces', [AnnonceController::class, 'store']);
+    Route::put('/annonces/{annonce}', [AnnonceController::class, 'update']);
+    Route::delete('/annonces/{annonce}', [AnnonceController::class, 'destroy']);
 });
+
+
+Route::get('/annonces', [AnnonceController::class, 'index']);
+Route::get('/annonces/{annonce}', [AnnonceController::class, 'show']);
 
 
 Route::post('/inscription', [UserController::class, 'register']);

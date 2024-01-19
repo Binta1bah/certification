@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Localite extends Model
+class Image extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'nom'
+        'image'
     ];
 
-    public function annonces()
+    public function annonce()
     {
-        return $this->hasMany(Annonce::class);
+        return $this->belongsTo(Annonce::class);
     }
 }

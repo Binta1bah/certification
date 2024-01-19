@@ -1,6 +1,388 @@
 {
     "openapi": "3.0.0",
     "paths": {
+        "/api/annonces": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "liste de toutes les annonces",
+                "operationId": "6d5efe14464468963c10a0a28ab8b88d",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Ajout d'une annonce",
+                "operationId": "24602bcd2a28bfa595b08a7a4acb2953",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "libelle": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "etat": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "categorie_id": {
+                                        "type": "integer"
+                                    },
+                                    "localite_id": {
+                                        "type": "integer"
+                                    },
+                                    "date_limite": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "image": {
+                                        "description": "Fichier de photo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "annonce ajoutée avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/annonces/{annonce}": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Details d'une annonce",
+                "operationId": "20f3fa1ac5ce9b2456d092fe3660680c",
+                "parameters": [
+                    {
+                        "name": "annonce",
+                        "in": "path",
+                        "description": "ID de l'annonce à afficher",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Modification d'une annonce",
+                "operationId": "4069f55c1ab08546a51cf017c43edbad",
+                "parameters": [
+                    {
+                        "name": "annonce",
+                        "in": "path",
+                        "description": "ID de l'annonce à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "libelle": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "etat": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "categorie_id": {
+                                        "type": "integer"
+                                    },
+                                    "localite_id": {
+                                        "type": "integer"
+                                    },
+                                    "date_limite": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "annonce modifiée avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/annonce/{annonce}": {
+            "delete": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Supprimer une annonce",
+                "operationId": "a6539c7ef620b16f39e852c256121535",
+                "parameters": [
+                    {
+                        "name": "annonce",
+                        "in": "path",
+                        "description": "ID de l'annonce à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/articles": {
+            "get": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "liste de tous les categories",
+                "operationId": "8b1e406f12c2ca9a811359ffde9f181d",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Ajout d'un article",
+                "operationId": "59d8c76516c6503a609d3ca85de30c47",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "libelle": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "description": "Fichier de photo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "contenu": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Article ajouté avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/articles/{article}": {
+            "get": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Details d'un article",
+                "operationId": "ae2592b01411f61e964d74c85da6a589",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "description": "ID de l'article à afficher",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "libelle": {
+                                            "type": "string"
+                                        },
+                                        "image": {
+                                            "type": "string",
+                                            "example": "path/to/photo.jpg"
+                                        },
+                                        "contenu": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Modification d'un article",
+                "operationId": "81a8986d114fc0d7e36e56ab1ab1cf59",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "description": "ID de l'article à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "libelle": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "description": "Fichier de photo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "contenu": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Article modifié avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Supprimer un article",
+                "operationId": "858d9cb40f8edbad7416e5fb71ab8248",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "description": "ID de l'article à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/categories": {
             "get": {
                 "tags": [
