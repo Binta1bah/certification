@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\api\AnnonceController;
-use App\Http\Controllers\api\ArticleController;
-use App\Http\Controllers\api\CategorieController;
-use App\Http\Controllers\api\LocaliteController;
-use App\Http\Controllers\api\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\RoleController;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\api\ImageController;
+use App\Http\Controllers\api\AnnonceController;
+use App\Http\Controllers\api\ArticleController;
+use App\Http\Controllers\api\LocaliteController;
+use App\Http\Controllers\api\CategorieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,11 +61,16 @@ Route::group(['middleware' => ['auth:api', 'user']], function () {
     Route::post('/annonces', [AnnonceController::class, 'store']);
     Route::put('/annonces/{annonce}', [AnnonceController::class, 'update']);
     Route::delete('/annonces/{annonce}', [AnnonceController::class, 'destroy']);
+    Route::post('/images/{annonce}', [ImageController::class, 'store']);
+    Route::delete('/images/{image}/{annonce}', [ImageController::class, 'destroy']);
 });
 
 
 Route::get('/annonces', [AnnonceController::class, 'index']);
 Route::get('/annonces/{annonce}', [AnnonceController::class, 'show']);
+Route::get('/annoncesParCategorie/{categorie}', [AnnonceController::class, 'annoncesParCategorie']);
+Route::get('/annoncesParLocalite/{localite}', [AnnonceController::class, 'annoncesParLocalite']);
+
 
 
 Route::post('/inscription', [UserController::class, 'register']);

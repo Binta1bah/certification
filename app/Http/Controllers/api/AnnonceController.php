@@ -4,9 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Models\Image;
 use App\Models\Annonce;
+use App\Models\Categorie;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use App\Models\Localite;
 
 /**
  * @OA\Info(
@@ -240,6 +242,91 @@ class AnnonceController extends Controller
             'Annonce' => $annonce
         ]);
     }
+
+
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/annoncesParCategorie/{categorie}",
+     *     tags={"Annonce"},
+     *     summary="Annonces par categorie",
+     *     @OA\Parameter(
+     *         name="categorie",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la categorie",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Succès",
+     *     ),
+     *     @OA\Response(response=401, description="Non autorisé"),
+     * )
+     */
+    public function annoncesParCategorie(Categorie $categorie)
+    {
+        // Récupérer la catégorie en fonction de l'id
+        $categorie = Categorie::where('id', $categorie->id)->first();
+
+        if ($categorie) {
+            // Récupérer les annonces liées à la catégorie
+            $annonces = Annonce::where('categorie_id', $categorie->id)->get();
+
+            return response()->json([
+                'statut' => 'OK',
+                'annonces' => $annonces,
+            ]);
+        } else {
+            return response()->json([
+                'statut' => 'Erreur',
+                'message' => 'Catégorie non trouvée',
+            ], 404);
+        }
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/annoncesParLocalite/{localite}",
+     *     tags={"Annonce"},
+     *     summary="Annonces par localite",
+     *     @OA\Parameter(
+     *         name="localite",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la localite",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Succès",
+     *     ),
+     *     @OA\Response(response=401, description="Non autorisé"),
+     * )
+     */
+    public function annoncesParLocalite(Localite $localite)
+    {
+        // Récupérer l'annonce en fonction de l'id
+        $localite = Localite::where('id', $localite->id)->first();
+
+        if ($localite) {
+            // Récupérer les annonces liées à la localité
+            $annonces = Annonce::where('localite_id', $localite->id)->get();
+
+            return response()->json([
+                'statut' => 'OK',
+                'annonces' => $annonces,
+            ]);
+        } else {
+            return response()->json([
+                'statut' => 'Erreur',
+                'message' => 'Catégorie non trouvée',
+            ], 404);
+        }
+    }
+
 
 
     /**

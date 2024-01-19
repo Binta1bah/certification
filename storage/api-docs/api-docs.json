@@ -167,6 +167,62 @@
                 ]
             }
         },
+        "/api/annoncesParCategorie/{categorie}": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Annonces par categorie",
+                "operationId": "0c1fef97b3f1eef24b705fca7748b29e",
+                "parameters": [
+                    {
+                        "name": "categorie",
+                        "in": "path",
+                        "description": "ID de la categorie",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                }
+            }
+        },
+        "/api/annoncesParLocalite/{localite}": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Annonces par localite",
+                "operationId": "6af134c2844f80bd2ce6085b2adf4353",
+                "parameters": [
+                    {
+                        "name": "localite",
+                        "in": "path",
+                        "description": "ID de la localite",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                }
+            }
+        },
         "/api/annonce/{annonce}": {
             "delete": {
                 "tags": [
