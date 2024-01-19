@@ -223,6 +223,34 @@
                 }
             }
         },
+        "/api/annoncesParType/{type}": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Annonces par Type",
+                "operationId": "777525cce7b256f5868efa59790cc47e",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "type d'annonce entre Don ou Echange",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                }
+            }
+        },
         "/api/annonce/{annonce}": {
             "delete": {
                 "tags": [

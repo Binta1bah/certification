@@ -330,6 +330,37 @@ class AnnonceController extends Controller
 
 
     /**
+     * @OA\Get(
+     *     path="/api/annoncesParType/{type}",
+     *     tags={"Annonce"},
+     *     summary="Annonces par Type",
+     *     @OA\Parameter(
+     *         name="type",
+     *         in="path",
+     *         required=true,
+     *         description="type d'annonce entre Don ou Echange",
+     *         @OA\Schema(type="string")
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Succès",
+     *     ),
+     *     @OA\Response(response=401, description="Non autorisé"),
+     * )
+     */
+    public function annoncesParType($type)
+    {
+        $annonces = Annonce::where('type', $type)->get();
+
+        return response()->json([
+            'statut' => 'OK',
+            'annonces' => $annonces,
+        ]);
+    }
+
+
+
+    /**
      * @OA\Delete(
      *     path="/api/annonce/{annonce}",
      *     tags={"Annonce"}, 
