@@ -10,6 +10,7 @@ use App\Http\Controllers\api\ArticleController;
 use App\Http\Controllers\api\LocaliteController;
 use App\Http\Controllers\api\CategorieController;
 use App\Http\Controllers\api\CommentaireController;
+use App\Http\Controllers\api\NewsLetterController;
 use GuzzleHttp\Middleware;
 
 /*
@@ -60,8 +61,9 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::post('articles', [ArticleController::class, 'store']);
     Route::delete('articles/{article}', [ArticleController::class, 'destroy']);
     Route::put('articles/{article}', [ArticleController::class, 'update']);
-    // Route pour les commentaires
-
+    // Route pour les newsletter
+    Route::get('/newsletters', [NewsLetterController::class, 'index']);
+    Route::delete('/newsletters/{newsLetter}', [NewsLetterController::class, 'destroy']);
 });
 
 Route::group(['middleware' => ['auth:api', 'user']], function () {
@@ -84,6 +86,8 @@ Route::get('/annoncesParType/{type}', [AnnonceController::class, 'annoncesParTyp
 
 Route::post('/inscription', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+
+Route::post('/newsletters', [NewsLetterController::class, 'store']);
 
 Route::get('articles', [ArticleController::class, 'index']);
 Route::get('articles/{article}', [ArticleController::class, 'show']);
