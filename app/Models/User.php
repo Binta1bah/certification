@@ -31,6 +31,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Annonce::class);
     }
 
+    public function commentaires()
+    {
+        return $this->hasMany(Commentaire::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

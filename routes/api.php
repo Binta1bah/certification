@@ -9,6 +9,7 @@ use App\Http\Controllers\api\AnnonceController;
 use App\Http\Controllers\api\ArticleController;
 use App\Http\Controllers\api\LocaliteController;
 use App\Http\Controllers\api\CategorieController;
+use App\Http\Controllers\api\CommentaireController;
 use GuzzleHttp\Middleware;
 
 /*
@@ -33,6 +34,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/profil', [UserController::class, 'profil']);
     Route::get('/refresh', [UserController::class, 'refresh']);
     Route::put('/update', [UserController::class, 'update']);
+    Route::delete('/commentaires/{commentaire}', [CommentaireController::class, 'destroy']);
+    Route::get('/commentaires', [CommentaireController::class, 'index']);
+    Route::delete('/commentaires/{commentaire}', [CommentaireController::class, 'destroy']);
 });
 
 Route::group(['middleware' => ['auth:api', 'admin']], function () {
@@ -56,9 +60,12 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::post('articles', [ArticleController::class, 'store']);
     Route::delete('articles/{article}', [ArticleController::class, 'destroy']);
     Route::put('articles/{article}', [ArticleController::class, 'update']);
+    // Route pour les commentaires
+
 });
 
 Route::group(['middleware' => ['auth:api', 'user']], function () {
+    // Route pour les annonces
     Route::post('/annonces', [AnnonceController::class, 'store']);
     Route::put('/annonces/{annonce}', [AnnonceController::class, 'update']);
     Route::delete('/annonces/{annonce}', [AnnonceController::class, 'destroy']);
