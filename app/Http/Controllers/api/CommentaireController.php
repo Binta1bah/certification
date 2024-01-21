@@ -6,11 +6,38 @@ use App\Models\Commentaire;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Info(
+ *     title="EcoLoop",
+ *     version="1.0.0",
+ *     description="Application de dons et d'échanges d'objets durables"
+ * )
+ */
+
+/**
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
 
 class CommentaireController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/commentaires",
+     * tags={"Commentaire"},
+     *     summary="liste de tous les commentaires",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function index()
     {
@@ -29,8 +56,38 @@ class CommentaireController extends Controller
         //
     }
 
+
+
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/commentaires",
+     *     summary="Ajout d'un commentaire",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     tags={"Commentaire"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="commentaire", type="string", example="commentaire"),
+     *         )
+     *        )
+     *     ),
+     *     @OA\Parameter(
+     *         name="article",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'article à commenter",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Commentaire ajouté avec succées",
+     *     ),
+     *     @OA\Response(response=401, description="Validation Error")
+     * )
      */
     public function store(Request $request, Article $article)
     {
@@ -75,7 +132,22 @@ class CommentaireController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/commentaires/{commentaire}",
+     * tags={"Commentaire"}, 
+     *     summary="Supprimer un commentaire",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="commentaire",
+     *         in="path",
+     *         required=true,
+     *         description="ID du commentaire à supprimer",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function destroy(Commentaire $commentaire)
     {

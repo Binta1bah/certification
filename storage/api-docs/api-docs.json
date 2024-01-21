@@ -596,6 +596,102 @@
                 ]
             }
         },
+        "/api/commentaires": {
+            "get": {
+                "tags": [
+                    "Commentaire"
+                ],
+                "summary": "liste de tous les commentaires",
+                "operationId": "c5e8e15627a624bcc312969453305693",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Commentaire"
+                ],
+                "summary": "Ajout d'un commentaire",
+                "operationId": "3cf3057aefb0678c15bfca1a395b7b6f",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "description": "ID de l'article à commenter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "commentaire": {
+                                        "type": "string",
+                                        "example": "commentaire"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Commentaire ajouté avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/commentaires/{commentaire}": {
+            "delete": {
+                "tags": [
+                    "Commentaire"
+                ],
+                "summary": "Supprimer un commentaire",
+                "operationId": "02c1e1681acd5dfe6ecf304fc1e60ecf",
+                "parameters": [
+                    {
+                        "name": "commentaire",
+                        "in": "path",
+                        "description": "ID du commentaire à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/localites": {
             "get": {
                 "tags": [
@@ -716,6 +812,86 @@
                         "name": "localite",
                         "in": "path",
                         "description": "ID de le localité",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/newsletters": {
+            "get": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "liste de tous les newsletters",
+                "operationId": "0c018a24e9ce247e80e2a35da797f296",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "Ajout d'un newsletter",
+                "operationId": "fc240fb25a89d973bc84638efd4b916a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "exemple@gmail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "newsletter créée avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/api/newsletters/{newsLetter}": {
+            "delete": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "Supprimer un newsLetter",
+                "operationId": "347276c28e1bb80b2e1afaaa2e5e6af2",
+                "parameters": [
+                    {
+                        "name": "Newsletter",
+                        "in": "path",
+                        "description": "ID du newsletter à supprimer",
                         "required": true,
                         "schema": {
                             "type": "integer"
