@@ -9,6 +9,7 @@ use App\Http\Controllers\api\AnnonceController;
 use App\Http\Controllers\api\ArticleController;
 use App\Http\Controllers\api\LocaliteController;
 use App\Http\Controllers\api\CategorieController;
+use GuzzleHttp\Middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +67,7 @@ Route::group(['middleware' => ['auth:api', 'user']], function () {
 });
 
 
-Route::get('/annonces', [AnnonceController::class, 'index']);
+Route::get('/annonces', [AnnonceController::class, 'index'])->middleware('statutAnnonce');
 Route::get('/annonces/{annonce}', [AnnonceController::class, 'show']);
 Route::get('/annoncesParCategorie/{categorie}', [AnnonceController::class, 'annoncesParCategorie']);
 Route::get('/annoncesParLocalite/{localite}', [AnnonceController::class, 'annoncesParLocalite']);
