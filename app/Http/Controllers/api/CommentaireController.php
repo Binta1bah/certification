@@ -30,18 +30,25 @@ class CommentaireController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/commentaires",
+     *     path="/api/commentaires/{article}",
      * tags={"Commentaire"},
      *     summary="liste de tous les commentaires",
      *     security={
      *         {"bearerAuth": {}}
      *     },
+     *     @OA\Parameter(
+     *         name="article",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'article",
+     *         @OA\Schema(type="integer")
+     * ),
      *     @OA\Response(response="200", description="succes")
      * )
      */
-    public function index()
+    public function index(Article $article)
     {
-        $commentaires = Commentaire::all();
+        $commentaires = Commentaire::where('article_id', $article->id)->get();
         return response()->json([
             'message' => 'liste des commentaires',
             'Commentaires' => $commentaires
@@ -60,7 +67,7 @@ class CommentaireController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/commentaires",
+     *     path="/api/commentaires/{article}",
      *     summary="Ajout d'un commentaire",
      *     security={
      *         {"bearerAuth": {}}
@@ -152,7 +159,7 @@ class CommentaireController extends Controller
     public function destroy(Commentaire $commentaire)
     {
         $user = auth()->user();
-        if ($commentaire->user_id == $user->id || $user->role_id) {
+        if ($commentaire->user_id == $user->id || $user->role_id == 2) {
             $commentaire->delete();
             return response()->json([
                 'Statut' => 'OK',

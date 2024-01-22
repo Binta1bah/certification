@@ -10,6 +10,7 @@ use App\Http\Controllers\api\ArticleController;
 use App\Http\Controllers\api\LocaliteController;
 use App\Http\Controllers\api\CategorieController;
 use App\Http\Controllers\api\CommentaireController;
+use App\Http\Controllers\api\EvaluationController;
 use App\Http\Controllers\api\NewsLetterController;
 use GuzzleHttp\Middleware;
 
@@ -35,8 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/profil', [UserController::class, 'profil']);
     Route::get('/refresh', [UserController::class, 'refresh']);
     Route::put('/update', [UserController::class, 'update']);
-    Route::delete('/commentaires/{commentaire}', [CommentaireController::class, 'destroy']);
-    Route::get('/commentaires', [CommentaireController::class, 'index']);
+
+    Route::get('/commentaires/{article}', [CommentaireController::class, 'index']);
     Route::delete('/commentaires/{commentaire}', [CommentaireController::class, 'destroy']);
 });
 
@@ -73,6 +74,9 @@ Route::group(['middleware' => ['auth:api', 'user']], function () {
     Route::delete('/annonces/{annonce}', [AnnonceController::class, 'destroy']);
     Route::post('/images/{annonce}', [ImageController::class, 'store']);
     Route::delete('/images/{image}/{annonce}', [ImageController::class, 'destroy']);
+
+    Route::post('/commentaires/{article}', [CommentaireController::class, 'store']);
+    Route::post('/voter/{user}', [EvaluationController::class, 'store']);
 });
 
 
@@ -88,6 +92,7 @@ Route::post('/inscription', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
 Route::post('/newsletters', [NewsLetterController::class, 'store']);
+Route::get('/votes/{user}', [EvaluationController::class, 'index']);
 
 Route::get('articles', [ArticleController::class, 'index']);
 Route::get('articles/{article}', [ArticleController::class, 'show']);

@@ -596,13 +596,24 @@
                 ]
             }
         },
-        "/api/commentaires": {
+        "/api/commentaires/{article}": {
             "get": {
                 "tags": [
                     "Commentaire"
                 ],
                 "summary": "liste de tous les commentaires",
-                "operationId": "c5e8e15627a624bcc312969453305693",
+                "operationId": "b3537d09e5619d47f8c90f0eac007a4a",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "description": "ID de l'article",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "succes"
@@ -619,7 +630,7 @@
                     "Commentaire"
                 ],
                 "summary": "Ajout d'un commentaire",
-                "operationId": "3cf3057aefb0678c15bfca1a395b7b6f",
+                "operationId": "4ddb3858cda0a8a02d939c0e9e915974",
                 "parameters": [
                     {
                         "name": "article",
@@ -683,6 +694,64 @@
                 "responses": {
                     "200": {
                         "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/votes/{user}": {
+            "get": {
+                "tags": [
+                    "Evaluation"
+                ],
+                "summary": "Le nombre de vote d'un utilisateur donné",
+                "operationId": "1bb421732c9c8ded1829cdd8f9ac7270",
+                "parameters": [
+                    {
+                        "name": "Utilisateur",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                }
+            }
+        },
+        "/api/voter/{user}": {
+            "post": {
+                "tags": [
+                    "Evaluation"
+                ],
+                "summary": "Voter pour un utilisateur",
+                "operationId": "797a44ce26f3de32616edcb27466bd5c",
+                "parameters": [
+                    {
+                        "name": "utilisateur",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Vote effectué avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
                     }
                 },
                 "security": [
