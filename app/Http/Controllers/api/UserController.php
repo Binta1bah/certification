@@ -284,9 +284,9 @@ class UserController extends Controller
             $user = auth()->user();
             $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email|max:255',
+                'email' => 'required|email|max:255|unique:users,email,' . auth()->id(),
                 'password' => 'required|string|min:8',
-                'telephone' => 'required|string|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone',
+                'telephone' => 'required|string|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone,' . auth()->id(),
             ]);
 
 
