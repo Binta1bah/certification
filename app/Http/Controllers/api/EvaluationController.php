@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\api;
 
 use App\Models\User;
+use App\Mail\VoteMail;
 use App\Models\Evaluation;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @OA\Info(
@@ -45,7 +47,6 @@ class EvaluationController extends Controller
     public function index(User $user)
     {
         $nombreVotes = Evaluation::where('user_id', $user->id)->count();
-
         return response()->json([
             'Message' => 'Nombre de votes de ' .  $user->name,
             'nombre de vote' => $nombreVotes
@@ -88,7 +89,11 @@ class EvaluationController extends Controller
         $evaluation = new Evaluation();
         $evaluation->evaluation = 'vote';
         $evaluation->user_id = $user->id;
+
         $evaluation->save();
+
+        Mail::to($user)->send(new VoteMail);
+
         return response()->json([
             'Message' => 'Vote effectué',
             'evaluation' => $evaluation,

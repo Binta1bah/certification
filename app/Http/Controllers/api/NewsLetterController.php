@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Mail\info;
+use App\Mail\infosNews;
 use App\Models\newsLetter;
+use App\Mail\NewsLetterMail;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use App\Mail\NewsInfos;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Newsletter as MailNewsletter;
 
 /**
  * @OA\Info(
@@ -47,14 +53,6 @@ class NewsLetterController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
 
     /**
      * @OA\Post(
@@ -91,29 +89,26 @@ class NewsLetterController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(newsLetter $newsLetter)
+    public function infoNews(Request $request)
     {
-        //
+        $info = [];
+
+        $titre = $request->titre;
+        $contenu = $request->contenu;
+
+        $info[] = $titre;
+        $info[] = $contenu;
+
+        $newsletters = newsLetter::all();
+        foreach ($newsletters as $newsletter) {
+            Mail::to($newsletter->email)->send(new NewsInfos($titre, $contenu));
+        }
+        return response()->json([
+            "message" => "L'info",
+            "datas" => $info
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(newsLetter $newsLetter)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, newsLetter $newsLetter)
-    {
-        //
-    }
 
     /**
      * @OA\Delete(

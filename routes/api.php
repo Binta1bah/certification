@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     // Route pour les newsletter
     Route::get('/newsletters', [NewsLetterController::class, 'index']);
     Route::delete('/newsletters/{newsLetter}', [NewsLetterController::class, 'destroy']);
+    Route::post('/envoi/info', [NewsLetterController::class, 'infoNews']);
 });
 
 Route::group(['middleware' => ['auth:api', 'user']], function () {

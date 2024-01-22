@@ -4,11 +4,14 @@ namespace App\Http\Controllers\api;
 
 use App\Models\Image;
 use App\Models\Annonce;
+use App\Models\Localite;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
+use App\Mail\NouvelleAnnonceMail;
 use App\Http\Controllers\Controller;
-use App\Models\Localite;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @OA\Info(
@@ -124,6 +127,11 @@ class AnnonceController extends Controller
             $images->save();
 
             $imagesData[] = $images;
+        }
+
+        $users = User::where('role_id', 1)->get();
+        foreach ($users as $user) {
+            Mail::to($user)->send(new NouvelleAnnonceMail);
         }
 
         return response()->json([
