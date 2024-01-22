@@ -949,6 +949,46 @@
                 }
             }
         },
+        "/api/envoi/info": {
+            "post": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "Envoyer une newsletter",
+                "operationId": "6f5ea59bda992a5db3cfe76ce5373620",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "Titre": {
+                                        "type": "string"
+                                    },
+                                    "Contenu": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Newsletter envoyée avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/newsletters/{newsLetter}": {
             "delete": {
                 "tags": [

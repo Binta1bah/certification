@@ -89,6 +89,32 @@ class NewsLetterController extends Controller
         ]);
     }
 
+
+     /**
+     * @OA\Post(
+     *     path="/api/envoi/info",
+     *     summary="Envoyer une newsletter",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     tags={"NewsLetter"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="Titre", type="string"),
+     *             @OA\Property(property="Contenu", type="string"),
+     *         )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Newsletter envoyée avec succées",
+     *     ),
+     *     @OA\Response(response=401, description="Validation Error")
+     * )
+     */
     public function infoNews(Request $request)
     {
         $info = [];
