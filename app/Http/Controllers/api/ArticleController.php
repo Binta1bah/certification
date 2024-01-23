@@ -101,7 +101,7 @@ class ArticleController extends Controller
         return response()->json([
             'statut' => 'OK',
             'Message' => 'Article ajouté avec succès',
-            'Role' => $article
+            'Article' => $article
         ]);
     }
 
@@ -203,7 +203,7 @@ class ArticleController extends Controller
         return response()->json([
             'statut' => 'OK',
             'Message' => 'Article modifié avec succès',
-            'Role' => $article
+            'Article' => $article
         ]);
     }
 

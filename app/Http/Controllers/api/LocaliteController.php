@@ -152,7 +152,7 @@ class LocaliteController extends Controller
         return response()->json([
             'statut' => 'OK',
             'Message' => 'Localité modifiée avec succès',
-            'Categorie' => $localite
+            'Localite' => $localite
         ]);
     }
 

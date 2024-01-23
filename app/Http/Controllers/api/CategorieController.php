@@ -91,7 +91,7 @@ class CategorieController extends Controller
         return response()->json([
             'statut' => 'OK',
             'Message' => 'Categorie ajoutée avec succès',
-            'Role' => $categorie
+            'Categorie' => $categorie
         ]);
     }
 
