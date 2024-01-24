@@ -1,0 +1,46 @@
+version: "3.8"
+services:
+  # Mysql database container
+  db:
+    image: mysql
+    container_name: mysql_Don_Echange
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    networks:
+      - tutorial
+
+  # phpmyadmin container
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin_Don_Echange
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8010:80
+    environment:
+      PMA_HOST: db
+    networks:
+      - tutorial
+
+  # Symfony apache project container
+  www:
+    build: docker/php
+    container_name: Don_Echange
+    ports:
+      - "80:8002"
+    volumes:
+      - ./docker/php/vhosts:/etc/apache2/sites-enabled
+      - ./:/var/www
+    restart: always
+    networks:
+      - tutorial
+
+networks:
+  tutorial:
+
+volumes:
+  db-data:
