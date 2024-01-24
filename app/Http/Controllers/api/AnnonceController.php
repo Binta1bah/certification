@@ -410,7 +410,7 @@ class AnnonceController extends Controller
     public function destroy(Annonce $annonce)
     {
         $user = auth()->user();
-        if ($annonce->user_id == $user->id) {
+        if ($annonce->user_id == $user->id || $user->role_id == 2) {
             $annonce->delete();
             return response()->json([
                 "statut" => "OK",
