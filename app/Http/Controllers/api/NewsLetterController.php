@@ -53,6 +53,27 @@ class NewsLetterController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/nombresNewsLetter",
+     * tags={"NewsLetter"},
+     * security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     summary="Nombres de newsLetters",
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function nombreNewsLetters()
+    {
+        $nombreNewsletter = newsLetter::count();
+
+        return response()->json([
+            'message' => 'Nombre de newsLetters',
+            'nombre' => $nombreNewsletter
+        ]);
+    }
+
 
     /**
      * @OA\Post(
@@ -90,7 +111,7 @@ class NewsLetterController extends Controller
     }
 
 
-     /**
+    /**
      * @OA\Post(
      *     path="/api/envoi/info",
      *     summary="Envoyer une newsletter",

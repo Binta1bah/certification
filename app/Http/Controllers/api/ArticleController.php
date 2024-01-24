@@ -43,6 +43,30 @@ class ArticleController extends Controller
         ]);
     }
 
+
+    /**
+     * @OA\Get(
+     *     path="/api/nombresArticles",
+     * tags={"Article"},
+     * security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     summary="Nombres d'articles",
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function nombreArticles()
+    {
+        $nombreArticle = Article::count();
+
+        return response()->json([
+            'message' => 'Nombre d\'article',
+            'nombre' => $nombreArticle
+        ]);
+    }
+
+
+
     /**
      * Show the form for creating a new resource.
      */

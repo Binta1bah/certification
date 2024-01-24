@@ -74,6 +74,25 @@
                 ]
             }
         },
+        "/api/nombresAnnonces": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Nombres d'annonces",
+                "operationId": "f0dc7afc7553cf8b0a4aa0aa7e8121c9",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/annonces/{annonce}": {
             "get": {
                 "tags": [
@@ -338,6 +357,25 @@
                 ]
             }
         },
+        "/api/nombresArticles": {
+            "get": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Nombres d'articles",
+                "operationId": "dfad6fc5e839eac53bd823cc0d89ccfd",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/articles/{article}": {
             "get": {
                 "tags": [
@@ -513,6 +551,25 @@
                     },
                     "401": {
                         "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/nombreCategories": {
+            "get": {
+                "tags": [
+                    "Categorie"
+                ],
+                "summary": "Nombres de categories",
+                "operationId": "fe079482f1931182b62a3e2eaa4cf712",
+                "responses": {
+                    "200": {
+                        "description": "succes"
                     }
                 },
                 "security": [
@@ -816,6 +873,25 @@
                 ]
             }
         },
+        "/api/nombresLocalites": {
+            "get": {
+                "tags": [
+                    "Localite"
+                ],
+                "summary": "Nombres de localites",
+                "operationId": "0b938565ab69bfb5f397527f5d73b94d",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/localites/{localite}": {
             "put": {
                 "tags": [
@@ -947,6 +1023,25 @@
                         "description": "Validation Error"
                     }
                 }
+            }
+        },
+        "/api/nombresNewsLetter": {
+            "get": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "Nombres de newsLetters",
+                "operationId": "1d71f76c8ce55dc718580696854bfe85",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/envoi/info": {
