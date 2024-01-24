@@ -85,6 +85,8 @@ Route::group(['middleware' => ['auth:api', 'user']], function () {
 
     Route::post('/commentaires/{article}', [CommentaireController::class, 'store']);
     Route::post('/voter/{user}', [EvaluationController::class, 'store']);
+
+    Route::post('users/whatsapp/{user}', [UserController::class, 'sendWhatsapp'])->name('whatsapp');
 });
 
 
