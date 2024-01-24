@@ -108,7 +108,8 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email|max:255',
             'password' => 'required|string|min:8',
             'photo' => 'required',
-            'telephone' => 'required|string|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone',
+            'telephone' => 'required|string'
+            //|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone',
 
         ]);
 
@@ -421,7 +422,7 @@ class UserController extends Controller
 
     /**
      * @OA\post(
-     *     path="/api/users/whatsapp/{user}",
+     *     path="/api/users/whatsapp/{id}",
      * tags={"User"}, 
      *     summary="Contacter un utilisateur via whatsApp",
      *     security={
@@ -437,16 +438,23 @@ class UserController extends Controller
      *     @OA\Response(response="200", description="succes")
      * )
      */
-    public function sendWhatsapp(User $user)
-    {
 
+    public function redirigerWhatsApp($id)
+
+    {
         try {
+            // Validation de l'ID comme étant numérique
+            if (!is_numeric($id)) {
+                throw new Exception('L\'ID doit être numérique.');
+            }
+            $user = User::findOrFail($id);
             $numeroWhatsApp = $user->telephone;
+            // dd($numeroWhatsApp);
             $urlWhatsApp = "https://api.whatsapp.com/send?phone=$numeroWhatsApp";
 
             return redirect()->to($urlWhatsApp);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('whatsapp');
+            return redirect()->route('whatsapp'); // Utilisez le bon nom de route
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

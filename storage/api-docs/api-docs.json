@@ -1588,13 +1588,13 @@
                 ]
             }
         },
-        "/api/users/whatsapp/{user}": {
+        "/api/users/whatsapp/{id}": {
             "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Contacter un utilisateur via whatsApp",
-                "operationId": "7c7c93d11fbe2fbae80a6434bc4d10b7",
+                "operationId": "d8d66613c73240fe865084068b89000f",
                 "parameters": [
                     {
                         "name": "user",
