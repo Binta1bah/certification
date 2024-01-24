@@ -51,6 +51,27 @@ class AnnonceController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/nombresAnnonces",
+     * tags={"Annonce"},
+     * security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     summary="Nombres d'annonces",
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function nombreAnnonces()
+    {
+        $nombreAnnonces = Annonce::count();
+
+        return response()->json([
+            'message' => 'Nombre d\'annonces',
+            'nombre' => $nombreAnnonces
+        ]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -389,7 +410,7 @@ class AnnonceController extends Controller
     public function destroy(Annonce $annonce)
     {
         $user = auth()->user();
-        if ($annonce->user_id == $user->id) {
+        if ($annonce->user_id == $user->id || $user->role_id == 2) {
             $annonce->delete();
             return response()->json([
                 "statut" => "OK",

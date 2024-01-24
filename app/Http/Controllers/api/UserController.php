@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\api;
 
+use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use OpenApi\Annotations as OA;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * @OA\Info(
@@ -413,6 +415,40 @@ class UserController extends Controller
             return response()->json([
                 'message' => 'Desolé, Vous ne pouvez pas vous connecter pour le moment.'
             ], 403);
+        }
+    }
+
+
+    /**
+     * @OA\post(
+     *     path="/api/users/whatsapp/{user}",
+     * tags={"User"}, 
+     *     summary="Contacter un utilisateur via whatsApp",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'utilisateur",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function sendWhatsapp(User $user)
+    {
+
+        try {
+            $numeroWhatsApp = $user->telephone;
+            $urlWhatsApp = "https://api.whatsapp.com/send?phone=$numeroWhatsApp";
+
+            return redirect()->to($urlWhatsApp);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('whatsapp');
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

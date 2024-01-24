@@ -12,6 +12,7 @@ use App\Http\Controllers\api\CategorieController;
 use App\Http\Controllers\api\CommentaireController;
 use App\Http\Controllers\api\EvaluationController;
 use App\Http\Controllers\api\NewsLetterController;
+use App\Models\Localite;
 use GuzzleHttp\Middleware;
 
 /*
@@ -66,6 +67,12 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::get('/newsletters', [NewsLetterController::class, 'index']);
     Route::delete('/newsletters/{newsLetter}', [NewsLetterController::class, 'destroy']);
     Route::post('/envoi/info', [NewsLetterController::class, 'infoNews']);
+
+    Route::get('nombresAnnonces', [AnnonceController::class, 'nombreAnnonces']);
+    Route::get('nombresLocalites', [LocaliteController::class, 'nombreLocalites']);
+    Route::get('nombreCategories', [CategorieController::class, 'nombreCategories']);
+    Route::get('nombresArticles', [ArticleController::class, 'nombreArticles']);
+    Route::get('/nombresNewsLetter', [NewsLetterController::class, 'nombreNewsLetters']);
 });
 
 Route::group(['middleware' => ['auth:api', 'user']], function () {
@@ -78,11 +85,13 @@ Route::group(['middleware' => ['auth:api', 'user']], function () {
 
     Route::post('/commentaires/{article}', [CommentaireController::class, 'store']);
     Route::post('/voter/{user}', [EvaluationController::class, 'store']);
+
+    Route::post('users/whatsapp/{user}', [UserController::class, 'sendWhatsapp'])->name('whatsapp');
 });
 
 
 Route::get('/annonces', [AnnonceController::class, 'index'])->middleware('statutAnnonce');
-Route::get('/annonces/{annonce}', [AnnonceController::class, 'show']);
+Route::get('/annonces/{annonce}', [AnnonceController::class, 'show'])->middleware('statutAnnonce');
 Route::get('/annoncesParCategorie/{categorie}', [AnnonceController::class, 'annoncesParCategorie']);
 Route::get('/annoncesParLocalite/{localite}', [AnnonceController::class, 'annoncesParLocalite']);
 Route::get('/annoncesParType/{type}', [AnnonceController::class, 'annoncesParType']);

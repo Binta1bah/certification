@@ -47,6 +47,28 @@ class CategorieController extends Controller
         ]);
     }
 
+
+    /**
+     * @OA\Get(
+     *     path="/api/nombreCategories",
+     * tags={"Categorie"},
+     * security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     summary="Nombres de categories",
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function nombreCategories()
+    {
+        $nombreCategorie = Categorie::count();
+
+        return response()->json([
+            'message' => 'Nombre de categories',
+            'nombre' => $nombreCategorie
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

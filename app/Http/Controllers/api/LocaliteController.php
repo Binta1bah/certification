@@ -47,6 +47,27 @@ class LocaliteController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/nombresLocalites",
+     * tags={"Localite"},
+     * security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     summary="Nombres de localites",
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function nombreLocalites()
+    {
+        $nombreLocalite = Localite::count();
+
+        return response()->json([
+            'message' => 'Nombre de Localités',
+            'nombre' => $nombreLocalite
+        ]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()
