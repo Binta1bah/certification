@@ -12,6 +12,7 @@ use App\Http\Controllers\api\CategorieController;
 use App\Http\Controllers\api\CommentaireController;
 use App\Http\Controllers\api\EvaluationController;
 use App\Http\Controllers\api\NewsLetterController;
+use App\Models\Annonce;
 use App\Models\Localite;
 use GuzzleHttp\Middleware;
 
@@ -106,3 +107,6 @@ Route::get('/votes/{user}', [EvaluationController::class, 'index']);
 
 Route::get('articles', [ArticleController::class, 'index']);
 Route::get('articles/{article}', [ArticleController::class, 'show']);
+
+Route::get('etatAnnonce', [AnnonceController::class, 'etatAnnonce']);
+Route::get('typeAnnonce', [AnnonceController::class, 'typeAnnonce']);

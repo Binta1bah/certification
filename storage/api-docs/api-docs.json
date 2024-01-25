@@ -74,6 +74,34 @@
                 ]
             }
         },
+        "/api/etatAnnonce": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "les etats des annonces",
+                "operationId": "9e63459ba7d6c2437e65fdfe447f835a",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                }
+            }
+        },
+        "/api/typeAnnonce": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "les types d'annonces",
+                "operationId": "307e1cb51ffbf295fc5b9015a7643fec",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                }
+            }
+        },
         "/api/nombresAnnonces": {
             "get": {
                 "tags": [

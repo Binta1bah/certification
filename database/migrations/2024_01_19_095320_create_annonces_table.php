@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('libelle');
             $table->text('description');
             $table->enum('etat', ['Comme Neuf', 'Bon Etat', 'Etat Moyen', 'A Bricoler']);
-            $table->enum('type', ['Don', 'Echanche']);
+            $table->enum('type', ['Don', 'Echange']);
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Categorie::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Localite::class)->constrained()->onDelete('cascade');
