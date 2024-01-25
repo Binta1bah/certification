@@ -205,7 +205,7 @@ class AnnonceController extends Controller
 
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      *     path="/api/annonces/{annonce}",
      *     tags={"Annonce"},
      *     summary="Modification d'une annonce",

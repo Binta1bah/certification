@@ -120,12 +120,12 @@
                     }
                 }
             },
-            "put": {
+            "post": {
                 "tags": [
                     "Annonce"
                 ],
                 "summary": "Modification d'une annonce",
-                "operationId": "4069f55c1ab08546a51cf017c43edbad",
+                "operationId": "3d6f4fdda2eec5462ac4cdc0fa34c902",
                 "parameters": [
                     {
                         "name": "annonce",
@@ -1453,12 +1453,12 @@
             }
         },
         "/api/update": {
-            "put": {
+            "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Modification des informations d'un utilisateur",
-                "operationId": "4381aeb1e92d871733036d78b84770fd",
+                "operationId": "baa09cea328f04eb113ca0328c49b61b",
                 "requestBody": {
                     "required": true,
                     "content": {
