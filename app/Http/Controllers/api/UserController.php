@@ -253,7 +253,7 @@ class UserController extends Controller
 
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      *     path="/api/update",
      *     summary="Modification des informations d'un utilisateur",
      *     security={
@@ -453,8 +453,6 @@ class UserController extends Controller
             $urlWhatsApp = "https://api.whatsapp.com/send?phone=$numeroWhatsApp";
 
             return redirect()->to($urlWhatsApp);
-        } catch (ModelNotFoundException $e) {
-            return redirect()->route('whatsapp'); // Utilisez le bon nom de route
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

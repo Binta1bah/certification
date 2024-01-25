@@ -83,6 +83,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('store', Role::class);
         $request->validate([
             'libelle' => 'required|string'
         ]);
@@ -149,6 +150,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+        $this->authorize('update', Role::class);
         $request->validate([
             'libelle' => 'required|string'
         ]);
@@ -184,6 +186,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        $this->authorize('destroy', Role::class);
         if ($role->exists()) {
             $role->delete();
             return response()->json([

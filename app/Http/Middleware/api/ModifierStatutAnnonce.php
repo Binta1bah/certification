@@ -16,12 +16,13 @@ class ModifierStatutAnnonce
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Récupérer les annonces dont la date limite est dépassée
-        $annoncesExpirees = Annonce::where('date_limite', '<', now())->get();
-
-        // Mettre à jour le statut de chaque annonce à 0
-        foreach ($annoncesExpirees as $annonce) {
-            $annonce->statut = 0;
+        $annonces = Annonce::all();
+        foreach ($annonces as $annonce) {
+            if ($annonce->date_limite <  now()) {
+                $annonce->statut = 0;
+            } elseif ($annonce->date_limite >  now()) {
+                $annonce->statut = 1;
+            }
             $annonce->save();
         }
         return $next($request);

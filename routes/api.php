@@ -12,6 +12,7 @@ use App\Http\Controllers\api\CategorieController;
 use App\Http\Controllers\api\CommentaireController;
 use App\Http\Controllers\api\EvaluationController;
 use App\Http\Controllers\api\NewsLetterController;
+use App\Models\Annonce;
 use App\Models\Localite;
 use GuzzleHttp\Middleware;
 
@@ -36,7 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', [UserController::class, 'logout']);
     Route::get('/profil', [UserController::class, 'profil']);
     Route::get('/refresh', [UserController::class, 'refresh']);
-    Route::put('/update', [UserController::class, 'update']);
+    Route::post('/update', [UserController::class, 'update']);
 
     Route::get('/commentaires/{article}', [CommentaireController::class, 'index']);
     Route::delete('/commentaires/{commentaire}', [CommentaireController::class, 'destroy']);
@@ -78,7 +79,7 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
 Route::group(['middleware' => ['auth:api', 'user']], function () {
     // Route pour les annonces
     Route::post('/annonces', [AnnonceController::class, 'store']);
-    Route::put('/annonces/{annonce}', [AnnonceController::class, 'update']);
+    Route::post('/annonces/{annonce}', [AnnonceController::class, 'update']);
     Route::delete('/annonces/{annonce}', [AnnonceController::class, 'destroy']);
     Route::post('/images/{annonce}', [ImageController::class, 'store']);
     Route::delete('/images/{image}/{annonce}', [ImageController::class, 'destroy']);
@@ -106,3 +107,6 @@ Route::get('/votes/{user}', [EvaluationController::class, 'index']);
 
 Route::get('articles', [ArticleController::class, 'index']);
 Route::get('articles/{article}', [ArticleController::class, 'show']);
+
+Route::get('etatAnnonce', [AnnonceController::class, 'etatAnnonce']);
+Route::get('typeAnnonce', [AnnonceController::class, 'typeAnnonce']);

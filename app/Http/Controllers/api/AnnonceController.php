@@ -50,6 +50,41 @@ class AnnonceController extends Controller
         ]);
     }
 
+
+    /**
+     * @OA\Get(
+     *     path="/api/etatAnnonce",
+     * tags={"Annonce"},
+     *     summary="les etats des annonces",
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function etatAnnonce()
+    {
+        $etats = ['Comme Neuf', 'Bon Etat', 'Etat Moyen', 'A Bricoler'];
+        return response()->json([
+            'Etats' => $etats
+        ]);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/typeAnnonce",
+     * tags={"Annonce"},
+     *     summary="les types d'annonces",
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function typeAnnonce()
+    {
+        $types = ['Don', 'Echange'];
+        return response()->json([
+            'Types' => $types
+        ]);
+    }
+
+
     /**
      * @OA\Get(
      *     path="/api/nombresAnnonces",
@@ -205,7 +240,7 @@ class AnnonceController extends Controller
 
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      *     path="/api/annonces/{annonce}",
      *     tags={"Annonce"},
      *     summary="Modification d'une annonce",
