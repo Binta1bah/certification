@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     // Route pour les articles
     Route::post('articles', [ArticleController::class, 'store']);
     Route::delete('articles/{article}', [ArticleController::class, 'destroy']);
-    Route::put('articles/{article}', [ArticleController::class, 'update']);
+    Route::post('articles/{article}', [ArticleController::class, 'update']);
     // Route pour les newsletter
     Route::get('/newsletters', [NewsLetterController::class, 'index']);
     Route::delete('/newsletters/{newsLetter}', [NewsLetterController::class, 'destroy']);
@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth:api', 'user']], function () {
     Route::post('/annonces/{annonce}', [AnnonceController::class, 'update']);
     Route::delete('/annonces/{annonce}', [AnnonceController::class, 'destroy']);
     Route::post('/images/{annonce}', [ImageController::class, 'store']);
-    Route::delete('/images/{image}/{annonce}', [ImageController::class, 'destroy']);
+    Route::delete('/images/{image}', [ImageController::class, 'destroy']);
 
     Route::post('/commentaires/{article}', [CommentaireController::class, 'store']);
     Route::post('/voter/{user}', [EvaluationController::class, 'store']);

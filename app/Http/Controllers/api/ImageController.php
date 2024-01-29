@@ -6,6 +6,24 @@ use App\Models\Image;
 use App\Models\Annonce;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Info(
+ *     title="EcoLoop",
+ *     version="1.0.0",
+ *     description="Application de dons et d'échanges d'objets durables"
+ * )
+ */
+
+/**
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
 
 class ImageController extends Controller
 {
@@ -26,14 +44,44 @@ class ImageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/images/{annonce}",
+     *     summary="Ajout d'une image sur une annonce",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     tags={"Image"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *             @OA\Property(property="file", type="string", format="binary", description="Fichier de photo"),
+     *         )
+     *        )
+     *     ),
+     *     @OA\Parameter(
+     *         name="annonce",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'annonce",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Image ajoutée avec succées",
+     *     )
+     *    )
      */
     public function store(Request $request, Annonce $annonce)
     {
+
         $user = auth()->user();
+
         $request->validate([
             'file' => 'required|file'
         ]);
+
         if ($annonce->user_id == $user->id) {
             $imagee = new Image();
             if ($request->hasFile('file')) {
@@ -76,11 +124,27 @@ class ImageController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/images/{image}",
+     * tags={"Image"}, 
+     *     summary="Supprimer une image",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="image",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'image à supprimer",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
-    public function destroy(Image $image, Annonce $annonce)
+    public function destroy(Image $image)
     {
         $user = auth()->user();
+        $annonce = $image->annonce;
         if ($annonce->user_id == $user->id) {
             $image->delete();
             return response()->json([

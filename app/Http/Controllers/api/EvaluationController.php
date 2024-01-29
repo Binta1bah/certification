@@ -35,7 +35,7 @@ class EvaluationController extends Controller
      * tags={"Evaluation"},
      *     summary="Le nombre de vote d'un utilisateur donné",
      *     @OA\Parameter(
-     *         name="Utilisateur",
+     *         name="user",
      *         in="path",
      *         required=true,
      *         description="ID de l'utilisateur",
@@ -71,7 +71,7 @@ class EvaluationController extends Controller
      *     },
      *     tags={"Evaluation"},
      *     @OA\Parameter(
-     *         name="utilisateur",
+     *         name="user",
      *         in="path",
      *         required=true,
      *         description="ID de l'utilisateur",

@@ -135,7 +135,7 @@ class AnnonceController extends Controller
      *             @OA\Property(property="categorie_id", type="int"),
      *             @OA\Property(property="localite_id", type="int"),
      *             @OA\Property(property="date_limite", type="date"),
-     *             @OA\Property(property="image", type="string", format="binary", description="Fichier de photo"),
+     *            @OA\Property(property="image[]",type="array",@OA\Items(type="string", format="binary"),description="Liste de fichiers images")
      *         )
      *        )
      *     ),
@@ -169,33 +169,36 @@ class AnnonceController extends Controller
         $annonce->localite_id = $request->localite_id;
         $annonce->date_limite = $request->date_limite;
         $annonce->user_id = $user->id;
-        $annonce->save();
+        if ($annonce->save()) {
 
-        $imagesData = [];
+            $imagesData = [];
 
-        foreach ($request->file('image') as $image) {
-            $images = new Image();
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = public_path('images');
-            $image->move($imagePath, $imageName);
-            $images->image = 'images/' . $imageName;
-            $images->annonce_id = $annonce->id;
-            $images->save();
+            foreach ($request->file('image') as $image) {
 
-            $imagesData[] = $images;
+                $images = new Image();
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $imagePath = public_path('images');
+                $image->move($imagePath, $imageName);
+                $images->image = 'images/' . $imageName;
+                $images->annonce_id = $annonce->id;
+
+                $images->save();
+
+                $imagesData[] = $images;
+            }
+
+            $users = User::where('role_id', 1)->get();
+            foreach ($users as $user) {
+                Mail::to($user)->send(new NouvelleAnnonceMail);
+            }
+
+            return response()->json([
+                'statut' => 'OK',
+                'Message' => 'Annonce ajoutée avec succès',
+                'Annonce' => $annonce,
+                'Images' => $imagesData
+            ]);
         }
-
-        $users = User::where('role_id', 1)->get();
-        foreach ($users as $user) {
-            Mail::to($user)->send(new NouvelleAnnonceMail);
-        }
-
-        return response()->json([
-            'statut' => 'OK',
-            'Message' => 'Annonce ajoutée avec succès',
-            'Annonce' => $annonce,
-            'Images' => $imagesData
-        ]);
     }
 
 

@@ -173,7 +173,7 @@ class ArticleController extends Controller
 
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      *     path="/api/articles/{article}",
      *     tags={"Article"},
      *     summary="Modification d'un article",

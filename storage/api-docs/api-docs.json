@@ -48,10 +48,13 @@
                                         "type": "string",
                                         "format": "date"
                                     },
-                                    "image": {
-                                        "description": "Fichier de photo",
-                                        "type": "string",
-                                        "format": "binary"
+                                    "image[]": {
+                                        "description": "Liste de fichiers images",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -450,12 +453,12 @@
                     }
                 }
             },
-            "put": {
+            "post": {
                 "tags": [
                     "Article"
                 ],
                 "summary": "Modification d'un article",
-                "operationId": "81a8986d114fc0d7e36e56ab1ab1cf59",
+                "operationId": "2177d924627764d948b15fe8695a694c",
                 "parameters": [
                     {
                         "name": "article",
@@ -797,7 +800,7 @@
                 "operationId": "1bb421732c9c8ded1829cdd8f9ac7270",
                 "parameters": [
                     {
-                        "name": "Utilisateur",
+                        "name": "user",
                         "in": "path",
                         "description": "ID de l'utilisateur",
                         "required": true,
@@ -822,7 +825,7 @@
                 "operationId": "797a44ce26f3de32616edcb27466bd5c",
                 "parameters": [
                     {
-                        "name": "utilisateur",
+                        "name": "user",
                         "in": "path",
                         "description": "ID de l'utilisateur",
                         "required": true,
@@ -837,6 +840,83 @@
                     },
                     "401": {
                         "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/images/{annonce}": {
+            "post": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Ajout d'une image sur une annonce",
+                "operationId": "e791b6fac1c2fd1b8fccff1e44809d80",
+                "parameters": [
+                    {
+                        "name": "annonce",
+                        "in": "path",
+                        "description": "ID de l'annonce",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "description": "Fichier de photo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Image ajoutée avec succées"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/images/{image}": {
+            "delete": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Supprimer une image",
+                "operationId": "6046b06e3e8e84c999d4cea5ca838d3b",
+                "parameters": [
+                    {
+                        "name": "image",
+                        "in": "path",
+                        "description": "ID de l'image à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
                     }
                 },
                 "security": [
