@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Database\Factories\UserFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -139,5 +140,36 @@ class UserTest extends TestCase
         ]);
         // Rafrechir l'utilisateur dans la base de donnée
         $user = $user->fresh();
+    }
+
+
+    /**
+     * Test : Déconnexion d'un utilisateur via l'API.
+     *
+     * Description :
+     * Ce test vérifie que le processus de déconnexion d'un utilisateur via l'API fonctionne correctement.
+     * L'utilisateur doit pouvoir se déconnecter avec succès après s'être authentifié.
+     *
+     * Scénario :
+     * 1. Créez un utilisateur à l'aide de la factory.
+     * 2. Connectez-vous en tant qu'utilisateur.
+     * 3. Générez un token JWT pour l'utilisateur.
+     * 4. Effectuez une requête HTTP GET vers l'API de déconnexion en incluant le token JWT dans l'en-tête de la requête.
+     * 5. Vérifiez que la déconnexion a réussi en vérifiant le code de statut HTTP et le message de la réponse.
+     *
+     * Prérequis :
+     * - Le token JWT doit être généré et inclus dans l'en-tête de la requête.
+     */
+    public function test_Deconnexion()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $token = JWTAuth::fromUser($user); // Générer le token JWT pour l'utilisateur
+
+        $response = $this->withHeaders(['Authorization' => 'Bearer ' . $token]) // Inclure le token dans l'en-tête
+            ->get('/api/logout');
+        $response->assertStatus(200)->assertJson([
+            'message' => 'Déconnexion effectuée',
+        ]);
     }
 }
