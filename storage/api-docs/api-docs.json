@@ -6,7 +6,7 @@
                 "tags": [
                     "Annonce"
                 ],
-                "summary": "liste de toutes les annonces",
+                "summary": "liste de toutes les annonces disponibles",
                 "operationId": "6d5efe14464468963c10a0a28ab8b88d",
                 "responses": {
                     "200": {
@@ -68,6 +68,55 @@
                     },
                     "401": {
                         "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/annonces/admin": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "liste de toutes les annonces disponibles et non disponibles",
+                "operationId": "4c623a557cdb0c578145cbc5557927ab",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/annonces/{user}": {
+            "get": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "les annonces d'un utilisateur",
+                "operationId": "ddecb3cbe424586841a20cc20232db62",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
                     }
                 },
                 "security": [

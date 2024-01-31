@@ -35,7 +35,7 @@ class AnnonceController extends Controller
      * @OA\Get(
      *     path="/api/annonces",
      * tags={"Annonce"},
-     *     summary="liste de toutes les annonces",
+     *     summary="liste de toutes les annonces disponibles",
      *     @OA\Response(response="200", description="succes")
      * )
      */
@@ -49,6 +49,60 @@ class AnnonceController extends Controller
             'datas' => $annonces
         ]);
     }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/annonces/admin",
+     * tags={"Annonce"},
+     * security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     summary="liste de toutes les annonces disponibles et non disponibles",
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function annoncesAdmin()
+    {
+
+        $annoncesDisponibles = Annonce::where('statut', 1)->get();
+        $annoncesNonDisponibles = Annonce::where('statut', 0)->get();
+        return response()->json([
+            "statut" => "OK",
+            "Annonces Disponibles" => $annoncesDisponibles,
+            'Annonces non Disponibles' => $annoncesNonDisponibles
+        ]);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/annonces/{user}",
+     * tags={"Annonce"},
+     * security={
+     *         {"bearerAuth": {}}
+     *     },
+     *      @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'utilisateur",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     summary="les annonces d'un utilisateur",
+     *     @OA\Response(response="200", description="succes")
+     * )
+     */
+    public function annoncesUser()
+    {
+        $user = auth()->user();
+        $annonces = Annonce::where('user_id', $user->id)->get();
+        return response()->json([
+            "message" => "liste des annonces d'un utilisateur",
+            "datas" => $annonces
+        ]);
+    }
+
+
 
 
     /**

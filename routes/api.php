@@ -70,6 +70,7 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::post('/envoi/info', [NewsLetterController::class, 'infoNews']);
 
     Route::get('nombresAnnonces', [AnnonceController::class, 'nombreAnnonces']);
+    Route::get('annonces/admin', [AnnonceController::class, 'annoncesAdmin']);
     Route::get('nombresLocalites', [LocaliteController::class, 'nombreLocalites']);
     Route::get('nombreCategories', [CategorieController::class, 'nombreCategories']);
     Route::get('nombresArticles', [ArticleController::class, 'nombreArticles']);
@@ -79,6 +80,7 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
 Route::group(['middleware' => ['auth:api', 'user']], function () {
     // Route pour les annonces
     Route::post('/annonces', [AnnonceController::class, 'store']);
+    Route::get('/annonces/{user}', [AnnonceController::class, 'annoncesUser']);
     Route::post('/annonces/{annonce}', [AnnonceController::class, 'update']);
     Route::delete('/annonces/{annonce}', [AnnonceController::class, 'destroy']);
     Route::post('/images/{annonce}', [ImageController::class, 'store']);
