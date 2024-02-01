@@ -24,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'photo',
         'email',
         'password',
+        'role_id'
     ];
 
     public function annonces()

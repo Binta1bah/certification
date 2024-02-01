@@ -132,7 +132,7 @@ class ArticleTest extends TestCase
             'contenu' => 'new contenu'
         ];
 
-        $response = $this->put("/api/articles/{$article->id}", $newArticle);
+        $response = $this->post("/api/articles/{$article->id}", $newArticle);
         $response->assertStatus(200)->json([
             'statut' => 'OK',
             'Message' => 'Article modifié avec succès',

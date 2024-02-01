@@ -89,11 +89,12 @@ class AnnonceTest extends TestCase
      */
     public function test_Afficher_Details_Annonce()
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $annonce = Annonce::factory()->create();
         $response = $this->get("/api/annonces/{$annonce->id}");
         $response->assertStatus(200)->json([
             "message" => "Les détails de l'article",
-            "data" => $annonce,
         ]);
     }
 
@@ -158,7 +159,7 @@ class AnnonceTest extends TestCase
             'date_limite' => '2024-01-24',
         ];
 
-        $response = $this->put("/api/annonces/{$annonce->id}", $newAnnonce);
+        $response = $this->post("/api/annonces/{$annonce->id}", $newAnnonce);
         $response->assertStatus(200)->json([
             'statut' => 'OK',
             'Message' => 'Annonce mise à jour avec succès',

@@ -86,7 +86,8 @@ class UserTest extends TestCase
             'telephone' => '778547874',
             'email' => 'user@gmail.com',
             'password' => Hash::make($password),
-            'photo' => $photo
+            'photo' => $photo,
+            'role_id' => 1
         ]);
 
         // Effectuer une requête HTTP POST pour s'authentifier
@@ -133,7 +134,7 @@ class UserTest extends TestCase
             'telephone' => '777474722',
             'photo' => $newPhoto
         ];
-        $response = $this->put('/api/update', $newdata);
+        $response = $this->post('/api/update', $newdata);
         $response->assertStatus(200)->assertJson([
             "statut" => "ok",
             "message" => "Modification effectuée",
