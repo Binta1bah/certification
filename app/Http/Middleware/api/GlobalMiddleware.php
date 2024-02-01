@@ -7,7 +7,7 @@ use App\Models\Annonce;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ModifierStatutAnnonce
+class GlobalMiddleware
 {
     /**
      * Handle an incoming request.
