@@ -45,7 +45,7 @@ class AnnonceController extends Controller
         $annonces = Annonce::where('statut', 1)->get();
         return response()->json([
             "statut" => "OK",
-            "message" => "Liste des annonces",
+            "message" => "Liste des annonces disponibles",
             'datas' => $annonces
         ]);
     }
@@ -287,12 +287,49 @@ class AnnonceController extends Controller
         }
     }
 
+
     /**
-     * Show the form for editing the specified resource.
+     * @OA\Put(
+     *     path="/api/cloturer/{annonce}",
+     *     tags={"Annonce"},
+     *     summary="Cloturer une annonce",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *         name="annonce",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'annonce à cloturer",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Succès",
+     *     ),
+     *     @OA\Response(response=401, description="Non autorisé"),
+     * )
      */
     public function edit(Annonce $annonce)
     {
-        //
+        $user = auth()->user();
+        if ($user->id == $annonce->user_id) {
+            if ($annonce->statut == 1) {
+                $annonce->statut = 0;
+                $annonce->save();
+                return response()->json([
+                    'message' => 'Annonce cloturée avec succés'
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Cette annonce est dèjà cloturée'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Vous n\'avez pas l\'autorisation de supprimer cette annonce'
+            ]);
+        }
     }
 
 

@@ -266,6 +266,39 @@
                 ]
             }
         },
+        "/api/cloturer/{annonce}": {
+            "put": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Cloturer une annonce",
+                "operationId": "5241a7be3a7ef9be03608f8be4922292",
+                "parameters": [
+                    {
+                        "name": "annonce",
+                        "in": "path",
+                        "description": "ID de l'annonce à cloturer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/annoncesParCategorie/{categorie}": {
             "get": {
                 "tags": [

@@ -83,6 +83,7 @@ Route::group(['middleware' => ['auth:api', 'user']], function () {
     Route::get('/annonces/{user}', [AnnonceController::class, 'annoncesUser']);
     Route::post('/annonces/{annonce}', [AnnonceController::class, 'update']);
     Route::delete('/annonces/{annonce}', [AnnonceController::class, 'destroy']);
+    Route::put('/cloturer/{annonce}', [AnnonceController::class, 'edit']);
     Route::post('/images/{annonce}', [ImageController::class, 'store']);
     Route::delete('/images/{image}', [ImageController::class, 'destroy']);
 
