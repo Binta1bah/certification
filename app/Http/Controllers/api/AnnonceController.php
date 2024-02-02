@@ -327,7 +327,7 @@ class AnnonceController extends Controller
             }
         } else {
             return response()->json([
-                'message' => 'Vous n\'avez pas l\'autorisation de supprimer cette annonce'
+                'message' => 'Vous n\'avez pas l\'autorisation de cloturer cette annonce'
             ]);
         }
     }
