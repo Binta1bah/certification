@@ -13,22 +13,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
-/**
- * @OA\Info(
- *     title="EcoLoop",
- *     version="1.0.0",
- *     description="Application de dons et d'échanges d'objets durables"
- * )
- */
-
-/**
- * @OA\SecurityScheme(
- *      securityScheme="bearerAuth",
- *      type="http",
- *      scheme="bearer",
- *      bearerFormat="JWT",
- * )
- */
 class AnnonceController extends Controller
 {
     /**
@@ -327,7 +311,7 @@ class AnnonceController extends Controller
             }
         } else {
             return response()->json([
-                'message' => 'Vous n\'avez pas l\'autorisation de cloturer cette annonce'
+                'message' => 'Vous n\'avez pas l\'autorisation de clo cette annonce'
             ]);
         }
     }

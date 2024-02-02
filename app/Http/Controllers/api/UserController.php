@@ -13,22 +13,6 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-/**
- * @OA\Info(
- *     title="EcoLoop",
- *     version="1.0.0",
- *     description="Application de dons et d'échanges d'objets durables"
- * )
- */
-
-/**
- * @OA\SecurityScheme(
- *      securityScheme="bearerAuth",
- *      type="http",
- *      scheme="bearer",
- *      bearerFormat="JWT",
- * )
- */
 class UserController extends Controller
 {
 

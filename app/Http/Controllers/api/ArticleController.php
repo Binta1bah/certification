@@ -7,22 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use OpenApi\Annotations as OA;
 
-/**
- * @OA\Info(
- *     title="EcoLoop",
- *     version="1.0.0",
- *     description="Application de dons et d'échanges d'objets durables"
- * )
- */
-
-/**
- * @OA\SecurityScheme(
- *      securityScheme="bearerAuth",
- *      type="http",
- *      scheme="bearer",
- *      bearerFormat="JWT",
- * )
- */
 class ArticleController extends Controller
 {
     /**
