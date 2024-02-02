@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "EcoLoop",
+        "title": "Don_&_Echange",
         "description": "Application de dons et d'échanges d'objets durables",
         "version": "1.0.0"
     },

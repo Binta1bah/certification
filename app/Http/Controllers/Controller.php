@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- *     title="EcoLoop",
+ *     title="Don_&_Echange",
  *     version="1.0.0",
  *     description="Application de dons et d'échanges d'objets durables"
  * )
