@@ -1170,6 +1170,145 @@
                 ]
             }
         },
+        "/api/newsletters": {
+            "get": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "liste de tous les newsletters",
+                "operationId": "0c018a24e9ce247e80e2a35da797f296",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "Ajout d'un newsletter",
+                "operationId": "fc240fb25a89d973bc84638efd4b916a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "exemple@gmail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "newsletter créée avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/api/nombresNewsLetter": {
+            "get": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "Nombres de newsLetters",
+                "operationId": "1d71f76c8ce55dc718580696854bfe85",
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/envoi/info": {
+            "post": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "Envoyer une newsletter",
+                "operationId": "6f5ea59bda992a5db3cfe76ce5373620",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "titre": {
+                                        "type": "string"
+                                    },
+                                    "contenu": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Newsletter envoyée avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/newsletters/{newsLetter}": {
+            "delete": {
+                "tags": [
+                    "NewsLetter"
+                ],
+                "summary": "Supprimer un newsLetter",
+                "operationId": "347276c28e1bb80b2e1afaaa2e5e6af2",
+                "parameters": [
+                    {
+                        "name": "newsLetter",
+                        "in": "path",
+                        "description": "ID du newsletter à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/roles": {
             "get": {
                 "tags": [

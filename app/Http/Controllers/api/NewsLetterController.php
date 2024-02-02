@@ -13,23 +13,6 @@ use App\Mail\NewsInfos;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Newsletter as MailNewsletter;
 
-/**
- * @OA\Info(
- *     title="EcoLoop",
- *     version="1.0.0",
- *     description="Application de dons et d'échanges d'objets durables"
- * )
- */
-
-/**
- * @OA\SecurityScheme(
- *      securityScheme="bearerAuth",
- *      type="http",
- *      scheme="bearer",
- *      bearerFormat="JWT",
- * )
- */
-
 class NewsLetterController extends Controller
 {
 
@@ -124,8 +107,8 @@ class NewsLetterController extends Controller
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
-     *             @OA\Property(property="Titre", type="string"),
-     *             @OA\Property(property="Contenu", type="string"),
+     *             @OA\Property(property="titre", type="string"),
+     *             @OA\Property(property="contenu", type="string"),
      *         )
      *        )
      *     ),
@@ -166,7 +149,7 @@ class NewsLetterController extends Controller
      *         {"bearerAuth": {}}
      *     },
      *  @OA\Parameter(
-     *         name="Newsletter",
+     *         name="newsLetter",
      *         in="path",
      *         required=true,
      *         description="ID du newsletter à supprimer",
@@ -180,7 +163,7 @@ class NewsLetterController extends Controller
         $newsLetter->delete();
         return response()->json([
             'statut' => 'OK',
-            'message' => 'Newsletter supprimer avec succès'
+            'message' => 'Newsletter supprimé avec succès'
         ]);
     }
 }
