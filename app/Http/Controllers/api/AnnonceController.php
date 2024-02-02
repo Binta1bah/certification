@@ -25,7 +25,6 @@ class AnnonceController extends Controller
      */
     public function index()
     {
-
         $annonces = Annonce::where('statut', 1)->get();
         return response()->json([
             "statut" => "OK",
