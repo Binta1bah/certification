@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  # Mysql database container
+  # Conteneur de la base de données mysql
   db:
     image: mysql
     container_name: mysql_Don_Echange
@@ -12,7 +12,7 @@ services:
     networks:
       - tutorial
 
-  # phpmyadmin container
+  # Conteneur Phpmyadmin
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin_Don_Echange
@@ -26,7 +26,7 @@ services:
     networks:
       - tutorial
 
-  # Symfony apache project container
+  # Conteneur de l'application laravel
   www:
     build: docker/php
     container_name: Don_Echange

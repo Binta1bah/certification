@@ -95,7 +95,7 @@ Route::group(['middleware' => ['auth:api', 'user']], function () {
 
 
 Route::get('/annonces', [AnnonceController::class, 'index']);
-Route::get('/annonces/{annonce}', [AnnonceController::class, 'show']);
+Route::get('/detailsAnnonce/{annonce}', [AnnonceController::class, 'show']);
 Route::get('/annoncesParCategorie/{categorie}', [AnnonceController::class, 'annoncesParCategorie']);
 Route::get('/annoncesParLocalite/{localite}', [AnnonceController::class, 'annoncesParLocalite']);
 Route::get('/annoncesParType/{type}', [AnnonceController::class, 'annoncesParType']);

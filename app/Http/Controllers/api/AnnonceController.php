@@ -241,7 +241,7 @@ class AnnonceController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/annonces/{annonce}",
+     *     path="/api/detailsAnnonce/{annonce}",
      *     tags={"Annonce"},
      *     summary="Details d'une annonce",
      *     @OA\Parameter(
@@ -263,7 +263,7 @@ class AnnonceController extends Controller
         if ($annonce->statut == 1) {
             $images = Image::where('annonce_id', $annonce->id)->get();
             return response()->json([
-                "message" => "Les détails de l'article",
+                "message" => "Les détails de l'annonce",
                 "data" => $annonce,
                 "images" => $images
             ]);

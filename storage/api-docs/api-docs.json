@@ -178,13 +178,13 @@
                 ]
             }
         },
-        "/api/annonces/{annonce}": {
+        "/api/detailsAnnonce/{annonce}": {
             "get": {
                 "tags": [
                     "Annonce"
                 ],
                 "summary": "Details d'une annonce",
-                "operationId": "20f3fa1ac5ce9b2456d092fe3660680c",
+                "operationId": "a69fe2fb441ae4c40c38ae2ab427f170",
                 "parameters": [
                     {
                         "name": "annonce",
@@ -204,7 +204,42 @@
                         "description": "Non autorisé"
                     }
                 }
-            },
+            }
+        },
+        "/api/cloturer/{annonce}": {
+            "put": {
+                "tags": [
+                    "Annonce"
+                ],
+                "summary": "Cloturer une annonce",
+                "operationId": "5241a7be3a7ef9be03608f8be4922292",
+                "parameters": [
+                    {
+                        "name": "annonce",
+                        "in": "path",
+                        "description": "ID de l'annonce à cloturer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/annonces/{annonce}": {
             "post": {
                 "tags": [
                     "Annonce"
@@ -262,39 +297,6 @@
                     },
                     "401": {
                         "description": "Validation Error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/cloturer/{annonce}": {
-            "put": {
-                "tags": [
-                    "Annonce"
-                ],
-                "summary": "Cloturer une annonce",
-                "operationId": "5241a7be3a7ef9be03608f8be4922292",
-                "parameters": [
-                    {
-                        "name": "annonce",
-                        "in": "path",
-                        "description": "ID de l'annonce à cloturer",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Succès"
-                    },
-                    "401": {
-                        "description": "Non autorisé"
                     }
                 },
                 "security": [
