@@ -26,11 +26,19 @@ class AnnonceController extends Controller
      */
     public function index()
     {
+        $annoncesData = [];
         $annonces = Annonce::where('statut', 1)->get();
+        foreach ($annonces as $annonce) {
+            $images = Image::where('annonce_id', $annonce->id)->get();
+            $annoncesData[] = [
+                'annonce' => $annonce,
+                'images' => $images
+            ];
+        }
         return response()->json([
             "statut" => "OK",
             "message" => "Liste des annonces disponibles",
-            'datas' => $annonces
+            'data' => $annoncesData
         ]);
     }
 
