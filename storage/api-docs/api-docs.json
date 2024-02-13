@@ -32,26 +32,30 @@
                             "schema": {
                                 "properties": {
                                     "libelle": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Mon annonce"
                                     },
                                     "description": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Description d mon annonce"
                                     },
                                     "etat": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Comme Neuf"
                                     },
                                     "type": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Don"
                                     },
                                     "categorie_id": {
-                                        "type": "integer"
+                                        "type": "integer",
+                                        "example": 1
                                     },
                                     "localite_id": {
-                                        "type": "integer"
+                                        "example": 2
                                     },
                                     "date_limite": {
-                                        "type": "string",
-                                        "format": "date"
+                                        "type": "2024-03-01"
                                     },
                                     "image[]": {
                                         "description": "Liste de fichiers images",
@@ -1555,12 +1559,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "user@example.com"
+                                        "example": "bamagid@gmail.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "password"
+                                        "example": "11111111"
                                     }
                                 },
                                 "type": "object"

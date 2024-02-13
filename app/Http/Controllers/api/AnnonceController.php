@@ -174,13 +174,13 @@ class AnnonceController extends Controller
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
-     *             @OA\Property(property="libelle", type="string"),
-     *             @OA\Property(property="description", type="string"),
-     *             @OA\Property(property="etat", type="string"),
-     *             @OA\Property(property="type", type="string"),
-     *             @OA\Property(property="categorie_id", type="int"),
-     *             @OA\Property(property="localite_id", type="int"),
-     *             @OA\Property(property="date_limite", type="date"),
+     *             @OA\Property(property="libelle", type="string", example="Mon annonce"),
+     *             @OA\Property(property="description", type="string", example="Description d mon annonce"),
+     *             @OA\Property(property="etat", type="string", example="Comme Neuf"),
+     *             @OA\Property(property="type", type="string", example="Don"),
+     *             @OA\Property(property="categorie_id", type="int", example= 1),
+     *             @OA\Property(property="localite_id", example=2),
+     *             @OA\Property(property="date_limite", type="2024-03-01"),
      *            @OA\Property(property="image[]",type="array",@OA\Items(type="string", format="binary"),description="Liste de fichiers images")
      *         )
      *        )
