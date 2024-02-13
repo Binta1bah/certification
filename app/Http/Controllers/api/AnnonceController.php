@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\User;
 use App\Models\Image;
 use App\Models\Annonce;
 use App\Models\Localite;
 use App\Models\Categorie;
+use App\Models\Evaluation;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 use App\Mail\NouvelleAnnonceMail;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
 class AnnonceController extends Controller
@@ -260,14 +261,28 @@ class AnnonceController extends Controller
      */
     public function show(Annonce $annonce)
     {
-        if ($annonce->statut == 1) {
-            $images = Image::where('annonce_id', $annonce->id)->get();
-            return response()->json([
-                "message" => "Les détails de l'annonce",
-                "data" => $annonce,
-                "images" => $images
-            ]);
-        }
+
+        $images = Image::where('annonce_id', $annonce->id)->get();
+        $nombreVotes = Evaluation::where('user_id', $annonce->user_id)->count();
+        return response()->json([
+            "message" => "Les détails de l'annonce",
+            "annonce" => [
+                'nom' => $annonce->libelle,
+                'description' => $annonce->description,
+                'etat' => $annonce->etat,
+                'type' => $annonce->type,
+                'categorie' => $annonce->categorie->libelle,
+                'localité' => $annonce->localite->nom,
+                'date_limite' => $annonce->date_limite,
+
+            ],
+            "images" => $images,
+            "user" => [
+                'nom' => $annonce->user->name,
+                'photo' => $annonce->user->photo,
+                'nombreVote' => $nombreVotes
+            ]
+        ]);
     }
 
 
