@@ -272,6 +272,11 @@ class AnnonceController extends Controller
 
         $images = Image::where('annonce_id', $annonce->id)->get();
         $nombreVotes = Evaluation::where('user_id', $annonce->user_id)->count();
+        if ($annonce->statut == 1) {
+            $statut = 'Disponnible';
+        } else {
+            $statut = 'Non Disponnible';
+        }
         return response()->json([
             "message" => "Les détails de l'annonce",
             "annonce" => [
@@ -281,6 +286,7 @@ class AnnonceController extends Controller
                 'type' => $annonce->type,
                 'categorie' => $annonce->categorie->libelle,
                 'localité' => $annonce->localite->nom,
+                'statut' => $statut,
                 'date_limite' => $annonce->date_limite,
 
             ],
