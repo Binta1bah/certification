@@ -29,7 +29,7 @@ class AnnonceController extends Controller
         $annoncesData = [];
         $annonces = Annonce::where('statut', 1)->get();
         foreach ($annonces as $annonce) {
-            $images = Image::where('annonce_id', $annonce->id)->get();
+            $images = Image::where('annonce_id', $annonce->id)->first();
             $annoncesData[] = [
                 'annonce' => $annonce,
                 'images' => $images
