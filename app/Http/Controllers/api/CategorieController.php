@@ -15,9 +15,6 @@ class CategorieController extends Controller
      *     path="/api/categories",
      * tags={"Categorie"},
      *     summary="liste de toutes les categories",
-     *     security={
-     *         {"bearerAuth": {}}
-     *     },
      *     @OA\Response(response="200", description="succes")
      * )
      */

@@ -52,12 +52,11 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     // Route::apiResource('categories', CategorieController::class);
     // Route pour les categories
     Route::post('categories', [CategorieController::class, 'store']);
-    Route::get('categories', [CategorieController::class, 'index']);
+   
     Route::delete('categories/{categorie}', [CategorieController::class, 'destroy']);
     Route::put('categories/{categorie}', [CategorieController::class, 'update']);
     // Route pour les localités
     Route::post('localites', [LocaliteController::class, 'store']);
-    Route::get('localites', [LocaliteController::class, 'index']);
     Route::delete('localites/{localite}', [LocaliteController::class, 'destroy']);
     Route::put('localites/{localite}', [LocaliteController::class, 'update']);
     // Route pour les articles
@@ -101,7 +100,8 @@ Route::get('/annoncesParCategorie/{categorie}', [AnnonceController::class, 'anno
 Route::get('/annoncesParLocalite/{localite}', [AnnonceController::class, 'annoncesParLocalite']);
 Route::get('/annoncesParType/{type}', [AnnonceController::class, 'annoncesParType']);
 
-
+Route::get('categories', [CategorieController::class, 'index']);
+Route::get('localites', [LocaliteController::class, 'index']);
 
 Route::post('/inscription', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);

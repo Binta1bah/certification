@@ -14,9 +14,6 @@ class LocaliteController extends Controller
      *     path="/api/localites",
      * tags={"Localite"},
      *     summary="liste de toutes les localités",
-     *     security={
-     *         {"bearerAuth": {}}
-     *     },
      *     @OA\Response(response="200", description="succes")
      * )
      */

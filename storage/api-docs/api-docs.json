@@ -640,12 +640,7 @@
                     "200": {
                         "description": "succes"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -1060,12 +1055,7 @@
                     "200": {
                         "description": "succes"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
