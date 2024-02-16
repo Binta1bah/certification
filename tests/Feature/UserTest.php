@@ -131,7 +131,7 @@ class UserTest extends TestCase
             'name' => 'test1',
             'email' => 'test1@gmail.com',
             'password' => 'password',
-            'telephone' => '777474722',
+            'telephone' => '770140404',
             'photo' => $newPhoto
         ];
         $response = $this->post('/api/update', $newdata);

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_bloqued')->nullable()->default(0);
-            $table->foreignIdFor(Role::class)->constrained()->onDelete('cascade')->default(1);
+            $table->foreignIdFor(Role::class)->constrained()->onDelete('cascade')->onUpdate('cascade')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->text('description');
             $table->enum('etat', ['Comme Neuf', 'Bon Etat', 'Etat Moyen', 'A Bricoler']);
             $table->enum('type', ['Don', 'Echange']);
-            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
-            $table->foreignIdFor(Categorie::class)->constrained()->onDelete('cascade');
-            $table->foreignIdFor(Localite::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(Categorie::class)->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(Localite::class)->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->boolean('statut')->default(1);
             $table->date('date_limite');
             $table->timestamps();

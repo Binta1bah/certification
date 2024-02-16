@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('image');
-            $table->foreignIdFor(Annonce::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Annonce::class)->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
