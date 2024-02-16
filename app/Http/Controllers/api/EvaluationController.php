@@ -70,9 +70,17 @@ class EvaluationController extends Controller
      */
     public function store(Request $request, User $user)
     {
+        $voteur = auth()->user();
         $evaluation = new Evaluation();
         $evaluation->evaluation = 'vote';
         $evaluation->user_id = $user->id;
+        $evaluation->voteur_id = $voteur->id;
+
+        if ($user->id == $voteur->id) {
+            return response()->json([
+                'message' => 'Vous ne pouvez pas voter pour vous'
+            ]);
+        }
 
         $evaluation->save();
 
@@ -80,8 +88,8 @@ class EvaluationController extends Controller
 
         return response()->json([
             'Message' => 'Vote effectué',
-            'evaluation' => $evaluation,
-            'user' => $evaluation->user->name
+            'vote pour' => $evaluation->user->name,
+            'voter par ' => $voteur->name
         ]);
     }
 
@@ -110,10 +118,31 @@ class EvaluationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/vote/{evaluation}",
+     *     tags={"Evaluation"}, 
+     *     summary="Supprimer un vote",
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *  @OA\Parameter(
+     *         name="evaluation",
+     *         in="path",
+     *         required=true,
+     *         description="ID du vote à supprimer",
+     *         @OA\Schema(type="integer")
+     * ),
+     *     @OA\Response(response="200", description="succes")
+     * )
      */
     public function destroy(Evaluation $evaluation)
     {
-        //
+        $user = auth()->user();
+        if ($evaluation->voteur_id == $user->id) {
+            $evaluation->delete();
+            return response()->json([
+                'message' => 'Vote supprimé'
+            ]);
+        }
     }
 }

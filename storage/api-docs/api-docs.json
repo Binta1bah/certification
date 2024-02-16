@@ -942,6 +942,36 @@
                 ]
             }
         },
+        "/api/vote/{evaluation}": {
+            "delete": {
+                "tags": [
+                    "Evaluation"
+                ],
+                "summary": "Supprimer un vote",
+                "operationId": "1bee38608f8f2fdd0c67f55370ed6600",
+                "parameters": [
+                    {
+                        "name": "evaluation",
+                        "in": "path",
+                        "description": "ID du vote à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/images/{annonce}": {
             "post": {
                 "tags": [
