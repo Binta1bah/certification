@@ -58,11 +58,25 @@ class AnnonceController extends Controller
     {
 
         $annoncesDisponibles = Annonce::where('statut', 1)->get();
+        foreach ($annoncesDisponibles as $annonce) {
+            $images = Image::where('annonce_id', $annonce->id)->first();
+            $annoncesDispoData[] = [
+                'annonce' => $annonce,
+                'images' => $images->image
+            ];
+        }
         $annoncesNonDisponibles = Annonce::where('statut', 0)->get();
+        foreach ($annoncesNonDisponibles as $annonce) {
+            $images = Image::where('annonce_id', $annonce->id)->first();
+            $annoncesNonDispoData[] = [
+                'annonce' => $annonce,
+                'images' => $images->image
+            ];
+        }
         return response()->json([
             "statut" => "OK",
-            "Annonces Disponibles" => $annoncesDisponibles,
-            'Annonces non Disponibles' => $annoncesNonDisponibles
+            "Annonces Disponibles" => $annoncesDispoData,
+            'Annonces non Disponibles' => $annoncesNonDispoData
         ]);
     }
 
@@ -88,9 +102,16 @@ class AnnonceController extends Controller
     {
         $user = auth()->user();
         $annonces = Annonce::where('user_id', $user->id)->get();
+        foreach ($annonces as $annonce) {
+            $images = Image::where('annonce_id', $annonce->id)->first();
+            $annoncesData[] = [
+                'annonce' => $annonce,
+                'images' => $images->image
+            ];
+        }
         return response()->json([
             "message" => "liste des annonces d'un utilisateur",
-            "datas" => $annonces
+            "datas" => $annoncesData
         ]);
     }
 
