@@ -4,13 +4,14 @@ namespace App\Http\Controllers\api;
 
 use App\Mail\info;
 use App\Mail\infosNews;
+use App\Mail\NewsInfos;
 use App\Models\newsLetter;
 use App\Mail\NewsLetterMail;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 use App\Http\Controllers\Controller;
-use App\Mail\NewsInfos;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use App\Mail\Newsletter as MailNewsletter;
 
 class NewsLetterController extends Controller
@@ -48,7 +49,7 @@ class NewsLetterController extends Controller
      * )
      */
     public function nombreNewsLetters()
-    {
+    { 
         $nombreNewsletter = newsLetter::count();
 
         return response()->json([
@@ -81,9 +82,16 @@ class NewsLetterController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email'
         ]);
+
+        if ($validator->fails()) {
+            // Retourner les erreurs de validation
+            return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+    
+
         $newsLetter = new newsLetter();
         $newsLetter->email = $request->email;
         $newsLetter->save();

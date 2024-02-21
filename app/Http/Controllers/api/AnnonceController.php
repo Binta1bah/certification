@@ -13,6 +13,7 @@ use OpenApi\Annotations as OA;
 use App\Mail\NouvelleAnnonceMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class AnnonceController extends Controller
 {
@@ -215,7 +216,7 @@ class AnnonceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'libelle' => 'required|string',
             'description' => 'required|string',
             'etat' => 'required|in:Comme Neuf,Bon Etat,Etat Moyen,A Bricoler',
@@ -225,6 +226,13 @@ class AnnonceController extends Controller
             'date_limite' => 'required|date',
             'image.*' => 'required|file'
         ]);
+
+        if ($validator->fails()) {
+            // Retourner les erreurs de validation
+            return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+
+
 
         $user = auth()->user();
         $annonce = new Annonce();
@@ -406,7 +414,7 @@ class AnnonceController extends Controller
     public function update(Request $request, Annonce $annonce)
     {
         $user = auth()->user();
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'libelle' => 'required|string',
             'description' => 'required|string',
             'etat' => 'required|in:Comme Neuf,Bon Etat,Etat Moyen,A Bricoler',
@@ -415,6 +423,12 @@ class AnnonceController extends Controller
             'localite_id' => 'required|exists:localites,id',
             'date_limite' => 'required|date',
         ]);
+
+        if ($validator->fails()) {
+            // Retourner les erreurs de validation
+            return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+    
 
         $annonce->update([
             'libelle' => $request->libelle,

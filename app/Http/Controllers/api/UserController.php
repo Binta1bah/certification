@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
@@ -87,7 +88,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÖØ-öø-ÿ -]+$/',
             'email' => 'required|unique:users,email|regex:/^[a-zA-Z0-9]+@[a-z]+\.[a-z]{2,}$/',
             'password' => 'required|string|min:8',
@@ -95,6 +96,12 @@ class UserController extends Controller
             'telephone' => 'required|string|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone',
 
         ]);
+
+        if ($validator->fails()) {
+            // Retourner les erreurs de validation
+            return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+
 
         $user = new User();
         $user->name = $request->name;
@@ -268,13 +275,17 @@ class UserController extends Controller
         try {
             $this->authorize('update', User::class);
             $user = auth()->user();
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|regex:/^[a-zA-Z0-9]+@[a-z]+\.[a-z]{2,}$/|unique:users,email,' . auth()->id(),
                 'password' => 'required|string|min:8',
                 'telephone' => 'required|string|max:9|regex:/^7[0-9]{8}$/|unique:users,telephone,' . auth()->id(),
             ]);
 
+            if ($validator->fails()) {
+                // Retourner les erreurs de validation
+                return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+            }
 
 
             $user->name = $request->name;

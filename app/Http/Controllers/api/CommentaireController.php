@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\Article;
 use App\Models\Commentaire;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Article;
 use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class CommentaireController extends Controller
 {
@@ -82,9 +83,15 @@ class CommentaireController extends Controller
     public function store(Request $request, Article $article)
     {
         $user = auth()->user();
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'commentaire' => 'required|string'
         ]);
+
+        if ($validator->fails()) {
+            // Retourner les erreurs de validation
+            return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+    
 
         $commentaire = new Commentaire();
         $commentaire->commentaire = $request->commentaire;

@@ -4,8 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
@@ -88,11 +89,16 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'libelle' => 'required|string',
             'image' => 'required',
             'contenu' => 'required'
         ]);
+
+        if ($validator->fails()) {
+        // Retourner les erreurs de validation
+        return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
 
         $article = new Article();
         $article->libelle = $request->libelle;
@@ -191,10 +197,15 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        $request->validate([
+       $validator = Validator::make($request->all(), [
             'libelle' => 'required|string',
             'contenu' => 'required'
         ]);
+
+        if ($validator->fails()) {
+        // Retourner les erreurs de validation
+        return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
 
         $article->libelle = $request->libelle;
         $article->contenu = $request->contenu;

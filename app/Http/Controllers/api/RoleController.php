@@ -4,8 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {
@@ -68,9 +69,15 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $this->authorize('store', Role::class);
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'libelle' => 'required|string'
         ]);
+
+        if ($validator->fails()) {
+        // Retourner les erreurs de validation
+        return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+
 
         $role = new Role();
         $role->libelle = $request->libelle;
@@ -135,9 +142,15 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $this->authorize('update', Role::class);
-        $request->validate([
+       $validator = Validator::make($request->all(), [
             'libelle' => 'required|string'
         ]);
+
+        if ($validator->fails()) {
+        // Retourner les erreurs de validation
+        return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+
 
         $role->libelle = $request->libelle;
         $role->save();

@@ -4,8 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Models\Localite;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class LocaliteController extends Controller
 {
@@ -82,9 +83,14 @@ class LocaliteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nom' => 'required|string'
         ]);
+
+        if ($validator->fails()) {
+        // Retourner les erreurs de validation
+        return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
 
         $localite = new Localite();
         $localite->nom = $request->nom;
@@ -144,9 +150,15 @@ class LocaliteController extends Controller
      */
     public function update(Request $request, Localite $localite)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nom' => 'required|string'
         ]);
+
+        if ($validator->fails()) {
+        // Retourner les erreurs de validation
+        return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+
 
         $localite->nom = $request->nom;
 

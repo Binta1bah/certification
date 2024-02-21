@@ -4,8 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Models\Categorie;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class CategorieController extends Controller
 {
@@ -84,9 +85,15 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'libelle' => 'required|string'
         ]);
+
+        if ($validator->fails()) {
+        // Retourner les erreurs de validation
+        return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+
 
         $categorie = new Categorie();
         $categorie->libelle = $request->libelle;
@@ -143,9 +150,14 @@ class CategorieController extends Controller
      */
     public function update(Request $request, Categorie $categorie)
     {
-        $request->validate([
+       $validator = Validator::make($request->all(), [
             'libelle' => 'required|string'
         ]);
+
+        if ($validator->fails()) {
+        // Retourner les erreurs de validation
+        return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
 
         $categorie->libelle = $request->libelle;
 

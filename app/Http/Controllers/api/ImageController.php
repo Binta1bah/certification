@@ -5,8 +5,9 @@ namespace App\Http\Controllers\api;
 use App\Models\Image;
 use App\Models\Annonce;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use OpenApi\Annotations as OA;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class ImageController extends Controller
 {
@@ -61,9 +62,15 @@ class ImageController extends Controller
 
         $user = auth()->user();
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'file' => 'required|file'
         ]);
+
+        if ($validator->fails()) {
+        // Retourner les erreurs de validation
+        return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
+        }
+
 
         if ($annonce->user_id == $user->id) {
             $imagee = new Image();
