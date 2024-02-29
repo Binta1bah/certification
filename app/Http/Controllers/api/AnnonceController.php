@@ -323,7 +323,10 @@ class AnnonceController extends Controller
             "user" => [
                 'nom' => $annonce->user->name,
                 'photo' => $annonce->user->photo,
-                'nombreVote' => $nombreVotes
+                'nombreVote' => $nombreVotes,
+                'id' => $annonce->user->id,
+                'telephone' => $annonce->user->telephone,
+                'email' => $annonce->user->email,
             ]
         ]);
     }
@@ -428,7 +431,7 @@ class AnnonceController extends Controller
             // Retourner les erreurs de validation
             return response()->json(['errors' => $validator->errors()], 422); // 422 Unprocessable Entity
         }
-    
+
 
         $annonce->update([
             'libelle' => $request->libelle,

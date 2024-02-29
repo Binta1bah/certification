@@ -164,7 +164,7 @@ class UserController extends Controller
 
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Connexion echoué; Entrez des information correctes'
+                'message' => 'Connexion echoué; Entrez des informations correctes'
             ], 401);
         }
         return $this->respondWithToken($token);
@@ -401,6 +401,7 @@ class UserController extends Controller
             $user = auth()->user();
 
             return response()->json([
+                'message' => 'Connexion reussie',
                 'access_token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60,

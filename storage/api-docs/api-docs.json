@@ -879,6 +879,77 @@
                 ]
             }
         },
+        "/api/contacts": {
+            "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Contacter l'administrateur",
+                "operationId": "414853034f64db55c2c25c8f91540eae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "message": {
+                                        "type": "Mon message"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Contact envoyé avec succées"
+                    },
+                    "401": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/api/contacts/{contact}": {
+            "delete": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Supprimer un contact",
+                "operationId": "4e45573ff481c7be8a24d14b9c1c4511",
+                "parameters": [
+                    {
+                        "name": "contact",
+                        "in": "path",
+                        "description": "ID du contact à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/votes/{user}": {
             "get": {
                 "tags": [

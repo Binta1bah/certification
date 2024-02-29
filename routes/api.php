@@ -10,6 +10,7 @@ use App\Http\Controllers\api\ArticleController;
 use App\Http\Controllers\api\LocaliteController;
 use App\Http\Controllers\api\CategorieController;
 use App\Http\Controllers\api\CommentaireController;
+use App\Http\Controllers\api\ContactController;
 use App\Http\Controllers\api\EvaluationController;
 use App\Http\Controllers\api\NewsLetterController;
 use App\Models\Annonce;
@@ -74,6 +75,9 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::get('nombreCategories', [CategorieController::class, 'nombreCategories']);
     Route::get('nombresArticles', [ArticleController::class, 'nombreArticles']);
     Route::get('/nombresNewsLetter', [NewsLetterController::class, 'nombreNewsLetters']);
+
+    //route de contact
+    Route::delete('contacts/{contact}', [ContactController::class, 'destroy']);
 });
 
 Route::group(['middleware' => ['auth:api', 'user']], function () {
@@ -114,3 +118,6 @@ Route::get('articles/{article}', [ArticleController::class, 'show']);
 
 Route::get('etatAnnonce', [AnnonceController::class, 'etatAnnonce']);
 Route::get('typeAnnonce', [AnnonceController::class, 'typeAnnonce']);
+
+Route::post('contacts', [ContactController::class, 'store']);
+
