@@ -13,15 +13,12 @@ class contactAdmin extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $nom;
-    public $email;
-    public $message;
+    public $param = [] ;
 
-    public function __construct($nom, $email, $message)
+    public function __construct($param)
     {
-        $this->nom = $nom;
-        $this->email = $email;
-        $this->message = $message;
+        $this->param = $param;
+       
     
     }
 

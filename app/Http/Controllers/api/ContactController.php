@@ -68,13 +68,15 @@ class ContactController extends Controller
         $contact->nom = $request->nom;
         $contact->email = $request->email;
         $contact->message = $request->message;
+        $contact->save();
 
+        $param [] = $contact;
 
         if ($contact->save()) {
 
             $user = User::where('role_id', 2)->first();
 
-            Mail::to($user->email)->send(new contactAdmin($request->nom, $request->email, $request->message));
+            Mail::to($user->email)->send(new contactAdmin($param));
 
             return response()->json([
                 'message' => 'Contact envoyé avec succés',

@@ -10,9 +10,9 @@
 
 <body>
     <h1>Nouveau contact</h1>
-    <p>Nom : {{ $nom }}</p>
-    <p>Email : {{ $email }}</p>
-    <p>Message : {{ $message }}</p>
+    <h2>Nom : {{ $param[0]['nom'] }}</h2>
+    <h2>Email : {{ $param[0]['email'] }}</h2>
+    <p>Message : {{ $param[0]['message'] }}</p>
 </body>
 
 </html>
