@@ -92,9 +92,9 @@ class AnnonceTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
         $annonce = Annonce::factory()->create();
-        $response = $this->get("/api/annonces/{$annonce->id}");
+        $response = $this->get("api/detailsAnnonce/{$annonce->id}");
         $response->assertStatus(200)->json([
-            "message" => "Les détails de l'article",
+            "message" => "Les détails de l'annonce",
         ]);
     }
 

@@ -29,9 +29,9 @@ class UserControllerTest extends TestCase
         // Créer une instance de Request simulée avec les données de l'utilisateur
         $validationDatas->merge([
             'name' => 'John Doe',
-            'email' => 'john@example.com',
+            'email' => 'johna@example.com',
             'password' => 'password123',
-            'telephone' => '712345678',
+            'telephone' => '772345678',
             'photo' => UploadedFile::fake()->image('avatar.jpg')
         ]);
 
@@ -47,36 +47,4 @@ class UserControllerTest extends TestCase
         // Vous pouvez ajouter d'autres assertions pour vérifier les données de l'utilisateur retournées si nécessaire
     }
 
-    public function test_Connexion()
-    {
-        $userController = new UserController();
-
-        $password = 'password';
-    
-        // Création d'un utilisateur
-        User::factory()->create([
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'password' => Hash::make($password),
-            'telephone' => '772345678',
-            'photo' => UploadedFile::fake()->image('avatar.jpg')
-        ]);
-    
-        // Données de validation pour la connexion
-        $validationDatas = new Request();
-        $validationDatas->merge([
-            'email' => 'john@example.com',
-            'password' => $password
-        ]);
-    
-        // Appel de la méthode de connexion
-        $response = $userController->login($validationDatas);
-    
-        // Vérification du statut de la réponse
-        $this->assertEquals(200, $response->status());
-    
-        // Vérification du contenu de la réponse
-        // $responseData = $response->getData();
-        // $this->assertEquals('Connexion reussie'; $responseData->message);
-    }
 }

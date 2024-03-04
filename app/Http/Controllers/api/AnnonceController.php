@@ -200,7 +200,7 @@ class AnnonceController extends Controller
      *             @OA\Property(property="description", type="string", example="Description d mon annonce"),
      *             @OA\Property(property="etat", type="string", example="Comme Neuf"),
      *             @OA\Property(property="type", type="string", example="Don"),
-     *             @OA\Property(property="categorie_id", type="int", example= 1),
+     *             @OA\Property(property="categorie_id", type="int", example= 4),
      *             @OA\Property(property="localite_id", example=2),
      *             @OA\Property(property="date_limite", type="2024-03-01"),
      *            @OA\Property(property="image[]",type="array",@OA\Items(type="string", format="binary"),description="Liste de fichiers images")
