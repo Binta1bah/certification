@@ -138,8 +138,8 @@ class UserController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="email", type="string", format="email", example="bamagid@gmail.com"),
-     *                 @OA\Property(property="password", type="string", format="password", example="11111111")
+     *                 @OA\Property(property="email", type="string", format="email", example="thiam@gmail.com"),
+     *                 @OA\Property(property="password", type="string", format="password", example="password")
      *             )
      *         )
      *     ),

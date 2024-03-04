@@ -1650,12 +1650,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "bamagid@gmail.com"
+                                        "example": "thiam@gmail.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "11111111"
+                                        "example": "password"
                                     }
                                 },
                                 "type": "object"
